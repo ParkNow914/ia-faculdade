@@ -278,9 +278,13 @@ function displayManualPrediction(data) {
 // ===================================
 
 function initChart() {
-    const ctx = document.getElementById('predictionChart').getContext('2d');
+    const ctx = document.getElementById('predictionChart');
+    if (!ctx) {
+        console.error('❌ Elemento canvas não encontrado');
+        return;
+    }
     
-    predictionChart = new Chart(ctx, {
+    predictionChart = new Chart(ctx.getContext('2d'), {
         type: 'line',
         data: {
             labels: [],
@@ -291,12 +295,15 @@ function initChart() {
                 backgroundColor: 'rgba(102, 126, 234, 0.1)',
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointRadius: 3,
+                pointHoverRadius: 5
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 2,
             plugins: {
                 legend: {
                     display: true,
@@ -319,31 +326,56 @@ function initChart() {
                 x: {
                     ticks: {
                         maxRotation: 45,
-                        minRotation: 45
+                        minRotation: 45,
+                        maxTicksLimit: 12
                     }
                 }
+            },
+            animation: {
+                duration: 0  // Desabilitar animações
             }
         }
     });
+    
+    console.log('✅ Gráfico inicializado');
 }
 
 function updateChart(forecasts) {
-    if (!predictionChart || !forecasts || forecasts.length === 0) {
-        console.log('⚠️ Não é possível atualizar o gráfico');
+    if (!predictionChart) {
+        console.warn('⚠️ Gráfico não está inicializado');
+        return;
+    }
+    
+    if (!forecasts || !Array.isArray(forecasts) || forecasts.length === 0) {
+        console.warn('⚠️ Dados de previsão inválidos');
         return;
     }
     
     console.log(`📊 Atualizando gráfico com ${forecasts.length} pontos`);
     
-    const labels = forecasts.map(f => formatTime(f.timestamp));
-    const data = forecasts.map(f => f.predicted_consumption);
-    
-    // Atualizar dados do gráfico
-    predictionChart.data.labels = labels;
-    predictionChart.data.datasets[0].data = data;
-    
-    // Atualizar o gráfico (sem animação para evitar loops)
-    predictionChart.update('none');
+    try {
+        // Limitar número de pontos para evitar sobrecarga
+        const maxPoints = 168; // máximo 7 dias
+        const limitedForecasts = forecasts.slice(0, maxPoints);
+        
+        const labels = limitedForecasts.map(f => formatTime(f.timestamp));
+        const data = limitedForecasts.map(f => f.predicted_consumption);
+        
+        // Destruir dados antigos
+        predictionChart.data.labels = [];
+        predictionChart.data.datasets[0].data = [];
+        
+        // Adicionar novos dados
+        predictionChart.data.labels = labels;
+        predictionChart.data.datasets[0].data = data;
+        
+        // Atualizar sem animação
+        predictionChart.update('none');
+        
+        console.log('✅ Gráfico atualizado com sucesso');
+    } catch (error) {
+        console.error('❌ Erro ao atualizar gráfico:', error);
+    }
 }
 
 // ===================================
