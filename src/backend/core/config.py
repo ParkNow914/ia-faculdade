@@ -1,0 +1,49 @@
+"""
+CONFIGURAÇÕES DO SISTEMA
+Centraliza todas as configurações da aplicação.
+"""
+
+from pydantic_settings import BaseSettings
+from typing import Optional
+import os
+
+
+class Settings(BaseSettings):
+    """
+    Configurações da aplicação.
+    """
+    
+    # API
+    APP_NAME: str = "Manus-Predictor API"
+    APP_VERSION: str = "1.0.0"
+    APP_DESCRIPTION: str = "Sistema de Previsão de Energia com LSTM"
+    
+    # Server
+    HOST: str = "0.0.0.0"
+    PORT: int = 8000
+    DEBUG: bool = True
+    
+    # CORS
+    CORS_ORIGINS: list = [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "http://localhost:5500",  # Live Server
+        "http://127.0.0.1:5500"
+    ]
+    
+    # Paths
+    MODEL_PATH: str = "src/model/saved_models/lstm_model.h5"
+    SCALER_DIR: str = "src/model/saved_models"
+    
+    # Model
+    SEQUENCE_LENGTH: int = 24
+    
+    # Logging
+    LOG_LEVEL: str = "INFO"
+    
+    class Config:
+        case_sensitive = True
+
+
+# Instância global de configurações
+settings = Settings()
