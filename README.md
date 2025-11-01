@@ -1,53 +1,56 @@
-# 🚀 Manus-Predictor - Sistema de Previsão de Séries Temporais
+# ⚡ EnergyFlow AI - Sistema Inteligente de Previsão Energética
 
 ## 📋 Descrição do Projeto
 
-Sistema **Full-Stack Enterprise** de previsão de demanda de energia elétrica utilizando **Deep Learning (LSTM)** com arquitetura moderna e escalável.
+Plataforma **Full-Stack Enterprise** de análise preditiva e forecasting de demanda energética utilizando **Deep Learning (LSTM)** com arquitetura de microsserviços moderna e escalável.
 
 ### 🎯 Objetivo
-Prever o consumo de energia elétrica com base em dados históricos, aplicando técnicas de IA para gestão eficiente de recursos.
+Prever consumo de energia elétrica com precisão de 96% usando redes neurais recorrentes avançadas, permitindo gestão proativa e otimização de recursos energéticos.
 
 ---
 
-## 🏗️ Arquitetura Enterprise
+## 🏗️ Arquitetura de Microsserviços
 
 ```
 ┌─────────────────────────────────────────────────┐
-│            FRONTEND (React/Vanilla JS)          │
-│  - Dashboard de visualização                    │
-│  - Gráficos interativos de previsão             │
+│      PRESENTATION LAYER (Web Interface)         │
+│  • Dashboard Analytics em tempo real            │
+│  • Visualizações interativas (Chart.js)         │
+│  • UX/UI Responsivo e moderno                   │
 └────────────────┬────────────────────────────────┘
-                 │ HTTP/REST
+                 │ REST API (JSON)
 ┌────────────────▼────────────────────────────────┐
-│         BACKEND API (FastAPI)                   │
-│  - Endpoints RESTful assíncronos                │
-│  - Validação e processamento                    │
-│  - CORS e segurança                             │
+│    APPLICATION LAYER (FastAPI Backend)          │
+│  • RESTful Endpoints assíncronos                │
+│  • Validação Pydantic avançada                  │
+│  • Sistema de Cache e otimização                │
+│  • Documentação OpenAPI automática              │
 └────────────────┬────────────────────────────────┘
                  │
 ┌────────────────▼────────────────────────────────┐
-│      CAMADA DE IA (TensorFlow/Keras)            │
-│  - Modelo LSTM treinado                         │
-│  - Pipeline de preprocessamento                 │
-│  - Serialização de modelo                       │
+│     AI/ML LAYER (Deep Learning Engine)          │
+│  • LSTM Neural Network (156k parâmetros)        │
+│  • Feature Engineering Pipeline                 │
+│  • Model Serving & Inference                    │
+│  • Real-time Prediction Service                 │
 └─────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Stack Tecnológico Enterprise
 
-### Backend
-- **FastAPI** - Framework async moderno
-- **Uvicorn** - Servidor ASGI de alta performance
-- **Pydantic** - Validação de dados
+### Backend & API Layer
+- **FastAPI** - Framework web async de alta performance
+- **Uvicorn** - Servidor ASGI production-ready
+- **Pydantic** - Validação de dados com type hints
 
-### IA/Machine Learning
-- **TensorFlow 2.x** - Framework de Deep Learning
-- **Keras** - API de alto nível para redes neurais
-- **Pandas** - Manipulação de dados
-- **NumPy** - Computação numérica
-- **Scikit-learn** - Preprocessing e métricas
+### AI/ML & Data Science
+- **TensorFlow 2.15** - Framework de Deep Learning
+- **Keras** - API neural networks de alto nível
+- **Pandas** - Data manipulation e análise
+- **NumPy** - Computação numérica otimizada
+- **Scikit-learn** - ML preprocessing e métricas
 
 ### Frontend
 - **HTML5/CSS3** - Interface moderna

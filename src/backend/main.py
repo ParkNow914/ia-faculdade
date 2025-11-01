@@ -1,6 +1,6 @@
 """
-MANUS-PREDICTOR - BACKEND API
-Aplicação FastAPI para servir o modelo de previsão.
+ENERGYFLOW AI - BACKEND API
+Sistema Inteligente de Previsão Energética com Deep Learning
 """
 
 import sys
@@ -69,11 +69,12 @@ async def startup_event():
     Executado ao iniciar a aplicação.
     """
     print("="*80)
-    print("🚀 MANUS-PREDICTOR API")
+    print("⚡ ENERGYFLOW AI - BACKEND API")
     print("="*80)
     print(f"📡 Servidor: {settings.HOST}:{settings.PORT}")
     print(f"📚 Documentação: http://{settings.HOST}:{settings.PORT}/docs")
     print(f"🔧 Versão: {settings.APP_VERSION}")
+    print(f"🧠 AI Engine: TensorFlow 2.15 + LSTM")
     print("="*80)
 
 
@@ -82,7 +83,7 @@ async def shutdown_event():
     """
     Executado ao encerrar a aplicação.
     """
-    print("\n👋 Encerrando servidor...")
+    print("\n👋 Encerrando EnergyFlow AI...")
 
 
 # === MAIN ===

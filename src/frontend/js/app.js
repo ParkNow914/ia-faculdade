@@ -1,5 +1,6 @@
 // ===================================
-// MANUS-PREDICTOR - JAVASCRIPT
+// ENERGYFLOW AI - JAVASCRIPT
+// Sistema Inteligente de Previsão Energética
 // ===================================
 
 const API_URL = 'http://localhost:8000';
@@ -12,7 +13,7 @@ let isLoading = false; // Previne múltiplas chamadas simultâneas
 // ===================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Manus-Predictor inicializado');
+    console.log('🚀 EnergyFlow AI inicializado');
     
     // Verificar status da API
     checkAPIStatus();
