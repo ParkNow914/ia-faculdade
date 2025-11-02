@@ -196,13 +196,61 @@ OUTPUT LAYER
 
 ## 📊 DADOS E FEATURES
 
-### Dataset Sintético
+### ⚠️ IMPORTANTE: Dataset Real vs Sintético
 
-O sistema gera um dataset sintético baseado em padrões reais de consumo energético:
+O sistema foi projetado para trabalhar com **dados REAIS** de consumo de energia elétrica. 
 
-- **Período**: 730 dias (2 anos)
+**Status Atual**: O repositório inclui um gerador de dados sintéticos (`data/generate_dataset.py`) APENAS para demonstração e testes rápidos. **Para uso acadêmico ou profissional, você DEVE usar dados reais.**
+
+### Datasets Reais Recomendados
+
+#### 1. **UCI - Individual Household Electric Power Consumption** ⭐ RECOMENDADO
+
+- **Fonte**: UCI Machine Learning Repository
+- **Descrição**: Medições reais de consumo elétrico residencial
+- **Local**: França
+- **Período**: Dezembro 2006 - Novembro 2010 (47 meses)
+- **Granularidade**: Medições por minuto (agregamos para horária)
+- **Total**: 2.075.259 medições originais
+- **Formato**: CSV/TXT
+- **Link**: https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption
+
+**Como usar**:
+```bash
+# 1. Baixar dataset
+wget https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip
+unzip household_power_consumption.zip
+mv household_power_consumption.txt data/raw/
+
+# 2. Processar para formato do sistema
+python data/process_uci_dataset.py
+
+# 3. Treinar modelo
+python src/model/train.py
+```
+
+#### 2. **Kaggle - Hourly Energy Consumption**
+
+- **Fonte**: Kaggle
+- **Descrição**: Consumo horário de regiões dos EUA
+- **Período**: 2004-2018
+- **Link**: https://www.kaggle.com/datasets/robikscube/hourly-energy-consumption
+
+#### 3. **PJM/ERCOT - Mercado de Energia dos EUA**
+
+- **Fonte**: PJM Interconnection / ERCOT
+- **Descrição**: Dados oficiais de mercado de energia
+- **Atualização**: Contínua (dados em tempo real disponíveis)
+
+**📖 Guia Completo**: Ver `data/README_DADOS_REAIS.md` para instruções detalhadas
+
+### Dataset Após Processamento
+
+Independente da fonte, o dataset final deve ter:
+
+- **Período**: Mínimo 730 dias (2 anos) recomendado
 - **Granularidade**: Medições horárias
-- **Total de registros**: 17.520
+- **Total de registros**: 17.520 (730 dias × 24 horas)
 - **Formato**: CSV
 
 ### Features do Modelo (13 variáveis)

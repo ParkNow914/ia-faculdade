@@ -61,10 +61,33 @@ Prever consumo de energia elétrica com precisão de 96% usando redes neurais re
 
 ## 📊 Dataset
 
-**Global Energy Forecasting Dataset** (simulado para projeto acadêmico)
-- Dados históricos de consumo de energia
-- Features: timestamp, temperatura, dia da semana, feriados
-- Target: consumo de energia (kWh)
+### ⚠️ IMPORTANTE: Use Dados Reais
+
+O sistema foi projetado para usar **dados reais** de consumo de energia. 
+
+**Datasets Reais Recomendados**:
+1. **UCI - Individual Household Electric Power Consumption** ⭐ RECOMENDADO
+   - Fonte: UCI Machine Learning Repository
+   - Período: 2006-2010 (França)
+   - 2+ milhões de medições reais
+   - [Como usar](data/README_DADOS_REAIS.md)
+
+2. **Kaggle - Hourly Energy Consumption**
+   - Dados de mercado dos EUA
+   - Período: 2004-2018
+
+3. **PJM/ERCOT** - Dados de mercado de energia
+
+**Como Obter Dados Reais**:
+```bash
+# Ver guia completo em:
+cat data/README_DADOS_REAIS.md
+
+# Processar dataset UCI (após download):
+python data/process_uci_dataset.py
+```
+
+⚠️ O arquivo `data/generate_dataset.py` gera dados sintéticos APENAS para testes rápidos. **NÃO use dados sintéticos para trabalhos acadêmicos ou produção.**
 
 ---
 
@@ -80,9 +103,18 @@ cd "PROJETO DE IA-LISSON"
 pip install -r requirements.txt
 ```
 
-### 3. Treine o modelo (primeira vez)
+### 3. Obtenha dados reais de energia
 ```powershell
-python src/model/train.py
+# Veja instruções detalhadas:
+type data\README_DADOS_REAIS.md
+
+# Após obter o dataset UCI, processe:
+python data\process_uci_dataset.py
+```
+
+### 4. Treine o modelo com dados reais
+```powershell
+python src\model\train.py
 ```
 
 ### 4. Execute o backend
