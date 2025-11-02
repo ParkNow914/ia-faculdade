@@ -16,7 +16,12 @@ from src.backend.api.schemas import (
 )
 from src.backend.core.predictor import get_predictor
 from src.backend.core.config import settings
+from src.backend.core.logger import setup_logger
+from src.backend.core.metrics import metrics, PerformanceMonitor
+from src.backend.utils.validators import DataValidator
 
+# Logger
+logger = setup_logger(__name__)
 
 # Criar router
 router = APIRouter()
@@ -74,33 +79,49 @@ async def predict_consumption(data: PredictionInput):
     **Retorna:**
     - Previsão de consumo em kWh
     """
-    if not predictor.is_ready():
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Modelo não está pronto. Execute o treinamento primeiro."
-        )
-    
-    try:
-        # Converter para dict
-        input_data = data.model_dump()
+    with PerformanceMonitor("/predict"):
+        if not predictor.is_ready():
+            logger.error("Tentativa de previsão com modelo não carregado")
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="Modelo não está pronto. Execute o treinamento primeiro."
+            )
         
-        # Adicionar timestamp (para compatibilidade)
-        input_data['timestamp'] = datetime.now()
+        try:
+            # Validação adicional
+            input_data = data.model_dump()
+            is_valid, error_msg = DataValidator.validate_prediction_input(input_data)
+            
+            if not is_valid:
+                logger.warning(f"Validação falhou: {error_msg}")
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=error_msg
+                )
+            
+            # Adicionar timestamp (para compatibilidade)
+            input_data['timestamp'] = datetime.now()
+            
+            # Fazer previsão
+            logger.info(f"Fazendo previsão para temp={input_data['temperature_celsius']}°C, hora={input_data['hour']}")
+            prediction = predictor.predict_single(input_data)
+            
+            logger.info(f"Previsão concluída: {prediction:.2f} kWh")
+            
+            return PredictionOutput(
+                predicted_consumption_kwh=prediction,
+                timestamp=datetime.now().isoformat(),
+                confidence="high"
+            )
         
-        # Fazer previsão
-        prediction = predictor.predict_single(input_data)
-        
-        return PredictionOutput(
-            predicted_consumption_kwh=prediction,
-            timestamp=datetime.now().isoformat(),
-            confidence="high"
-        )
-    
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro na previsão: {str(e)}"
-        )
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Erro na previsão: {str(e)}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Erro na previsão: {str(e)}"
+            )
 
 
 @router.post("/predict/batch", response_model=BatchPredictionOutput, tags=["Prediction"])
@@ -245,3 +266,17 @@ async def get_statistics():
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Erro ao buscar estatísticas: {str(e)}"
         )
+
+
+@router.get("/metrics", tags=["Monitoring"])
+async def get_metrics():
+    """
+    Retorna métricas de performance da API.
+    
+    **Retorna:**
+    - Uptime do sistema
+    - Total de requisições
+    - Métricas por endpoint
+    - Erros recentes
+    """
+    return metrics.get_metrics()
