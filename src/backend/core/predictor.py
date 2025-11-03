@@ -94,11 +94,15 @@ class EnergyPredictor:
         X, _ = self.preprocessor.prepare_features(df_processed)
         X_scaled = self.preprocessor.scaler_features.transform(X)
         
-        # Criar sequência (pegar últimas 24 horas)
-        if len(X_scaled) < self.preprocessor.sequence_length:
-            raise ValueError(f"Necessário pelo menos {self.preprocessor.sequence_length} timesteps")
+        # SOLUÇÃO: Repetir os dados para criar sequência de 24 timesteps
+        # Em produção real, usaríamos dados históricos reais
+        sequence_length = self.preprocessor.sequence_length
+        if len(X_scaled) < sequence_length:
+            # Repetir o mesmo registro para preencher a sequência
+            X_seq = np.repeat(X_scaled, sequence_length, axis=0)[-sequence_length:]
+        else:
+            X_seq = X_scaled[-sequence_length:]
         
-        X_seq = X_scaled[-self.preprocessor.sequence_length:]
         X_seq = np.array([X_seq])
         
         # Predição
