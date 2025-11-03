@@ -1,0 +1,20 @@
+{
+  "model_architecture": {
+    "sequence_length": 24,
+    "n_features": 13,
+    "total_params": 139649,
+    "layers": 13
+  },
+  "training_params": {
+    "epochs": 45,
+    "final_loss": 0.0075284698978066444,
+    "final_val_loss": 0.007703054696321487
+  },
+  "metrics": {
+    "MAE": 0.3972389625185141,
+    "MSE": 0.3106830674830057,
+    "RMSE": 0.5573895114576571,
+    "R2": 0.43553533802580835,
+    "MAPE": 51.80618051112319
+  }
+}
