@@ -1,3 +1,4 @@
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,18 +8,68 @@ venv/
 env/
 ENV/
 .venv
-.git
-.github
+
+# Git
+.git/
+.github/
 .gitignore
-*.md
-.vscode
-.idea
-logs/
-*.log
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
 Thumbs.db
-node_modules/
+
+# Logs
+logs/
+*.log
+
+# Environment
 .env
 .env.local
+.env.*.local
+
+# Documentation (não precisa no container)
+*.md
+!README.md
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Scripts de desenvolvimento
+setup.ps1
+start-*.ps1
+deploy.ps1
+deploy.sh
+retrain-otimizado.ps1
+
+# Deploy configs (não precisa no container)
+Procfile
+render.yaml
+railway.json
+vercel.json
+
+# Tests
+tests/
+*.pytest_cache/
+
+# Data (arquivos grandes - modelo será copiado separadamente)
+data/raw/*.txt
+data/raw/*.zip
+data/raw/*.csv
+data/processed/*.csv
+
+# Node modules (se houver)
+node_modules/
+
+# Databases
 *.sqlite
 *.db
