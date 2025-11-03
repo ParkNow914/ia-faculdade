@@ -94,9 +94,7 @@ body {
     color: var(--white);
     padding: var(--spacing-lg) 0;
     box-shadow: var(--shadow-lg);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    position: relative;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
