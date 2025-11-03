@@ -64,7 +64,7 @@ tests/
 # Data (arquivos grandes - modelo será copiado separadamente)
 data/raw/*.txt
 data/raw/*.zip
-data/raw/*.csv
+# data/raw/*.csv  <- REMOVIDO: precisamos do energy_consumption.csv para /forecast
 data/processed/*.csv
 
 # Node modules (se houver)
