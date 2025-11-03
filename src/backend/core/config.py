@@ -30,7 +30,10 @@ class Settings(BaseSettings):
         "http://localhost:8080",
         "http://127.0.0.1:8080",
         "http://localhost:5500",  # Live Server
-        "http://127.0.0.1:5500"
+        "http://127.0.0.1:5500",
+        "https://energyflow-frontend.onrender.com",  # Frontend em produção
+        "https://energyflow-api.onrender.com",  # Backend em produção
+        "*"  # Permitir todas as origens (remova em produção se necessário)
     ]
     
     # Paths

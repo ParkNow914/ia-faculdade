@@ -1,0 +1,15 @@
+services:
+  # Frontend - Static Site
+  - type: web
+    name: energyflow-frontend
+    env: static
+    buildCommand: echo "Frontend pronto - sem build necessário"
+    staticPublishPath: ./src/frontend
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

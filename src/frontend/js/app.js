@@ -7,7 +7,7 @@
 // Detectar automaticamente a URL da API (desenvolvimento vs produção)
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8000'
-    : (window.location.protocol + '//' + window.location.hostname.replace('frontend', 'api').replace('energyflow-', 'energyflow-api-'));
+    : 'https://energyflow-api.onrender.com';
 
 let predictionChart = null;
 let isLoading = false;
