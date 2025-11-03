@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnergyFlow AI - Sistema Inteligente de Previsão Energética</title>
+    <title>EnergyFlow AI - Previsão com Dados Reais UCI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -30,29 +36,50 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero fade-in">
         <div class="container">
             <div class="hero-content">
-                <h2 class="hero-title">Análise Preditiva de Energia com Deep Learning</h2>
+                <h2 class="hero-title">⚡ Previsão Inteligente de Consumo de Energia</h2>
                 <p class="hero-subtitle">
-                    Sistema enterprise de forecasting energético utilizando redes neurais LSTM avançadas 
-                    para previsão de demanda com precisão de 96%.
+                    Sistema que <strong>prevê quanto de energia você vai consumir</strong> nas próximas horas e dias.
+                    Utiliza Inteligência Artificial (IA) treinada com <strong>mais de 2 milhões de medições reais</strong> 
+                    de consumo residencial coletadas na França durante 4 anos (2006-2010).
+                    <br><br>
+                    💡 <em>Pense nisso como um "meteorologista de energia" - assim como a previsão do tempo, 
+                    nosso sistema analisa padrões passados para prever o consumo futuro!</em>
                 </p>
                 <div class="hero-stats">
                     <div class="stat-card">
                         <i class="fas fa-brain"></i>
-                        <h3>LSTM</h3>
-                        <p>Neural Network</p>
+                        <h3>139.649</h3>
+                        <p>Conexões da IA</p>
+                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                            (parâmetros do cérebro artificial)
+                        </small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-database"></i>
+                        <h3>2+ milhões</h3>
+                        <p>Dados de Treinamento</p>
+                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                            (medições reais de consumo)
+                        </small>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-chart-line"></i>
-                        <h3>96%</h3>
-                        <p>Precisão R²</p>
+                        <h3>50%</h3>
+                        <p>Precisão das Previsões</p>
+                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                            (acerta metade da variação)
+                        </small>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-clock"></i>
-                        <h3>&lt;100ms</h3>
-                        <p>Latência API</p>
+                        <h3>4 anos</h3>
+                        <p>Histórico Analisado</p>
+                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                            (2006 a 2010 - França)
+                        </small>
                     </div>
                 </div>
             </div>
@@ -66,52 +93,92 @@
             <section id="predicao" class="section">
                 <h2 class="section-title">
                     <i class="fas fa-magic"></i>
-                    Previsão Inteligente
+                    Faça Suas Previsões
                 </h2>
+                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                    Escolha uma das duas formas abaixo para prever o consumo de energia:
+                </p>
 
                 <div class="prediction-container">
                     <!-- Quick Prediction -->
-                    <div class="card prediction-card">
-                        <h3 class="card-title">Forecast Rápido (até 7 dias)</h3>
+                    <div class="card prediction-card scale-in">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                            <h3 class="card-title" style="margin: 0;">⚡ Previsão Rápida e Automática</h3>
+                            <span class="badge badge-success">Recomendado</span>
+                        </div>
                         <p class="card-description">
-                            Gere previsões automáticas de demanda energética usando nosso modelo LSTM.
+                            <strong>Mais fácil e rápida!</strong> Deixe a IA fazer tudo automaticamente.
+                            <br><br>
+                            <strong>Como funciona:</strong> O sistema pega os dados históricos já salvos 
+                            e prevê o consumo das próximas horas. Você só escolhe quantas horas quer ver!
+                            <br><br>
+                            💡 <em>Ideal para ter uma visão rápida do consumo futuro sem precisar 
+                            preencher nada manualmente.</em>
                         </p>
                         
                         <div class="form-group">
-                            <label for="hoursAhead">Horas à frente:</label>
-                            <input type="number" id="hoursAhead" value="24" min="1" max="168" class="input">
+                            <label for="hoursAhead">
+                                <strong>Quantas horas à frente você quer prever?</strong>
+                                <br>
+                                <small style="color: var(--gray);">
+                                    (Mínimo: 1 hora | Máximo: 168 horas = 7 dias)
+                                </small>
+                            </label>
+                            <input type="number" id="hoursAhead" value="24" min="1" max="168" class="input" 
+                                   placeholder="Ex: 24 (para prever o próximo dia completo)">
                         </div>
 
                         <button id="btnQuickPredict" class="btn btn-primary">
                             <i class="fas fa-chart-area"></i>
-                            Gerar Previsão
+                            Gerar Previsão Automática
                         </button>
 
                         <div id="quickPredictResult" class="result-box" style="display: none;"></div>
                     </div>
 
                     <!-- Manual Prediction -->
-                    <div class="card prediction-card">
-                        <h3 class="card-title">Previsão Personalizada</h3>
+                    <div class="card prediction-card scale-in" style="animation-delay: 0.1s;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                            <h3 class="card-title" style="margin: 0;">🎯 Previsão Personalizada (Avançada)</h3>
+                            <span class="badge badge-info">Avançado</span>
+                        </div>
                         <p class="card-description">
-                            Configure parâmetros customizados para análise preditiva avançada.
+                            <strong>Para quem quer ter controle total!</strong> Informe todos os detalhes 
+                            e obtenha uma previsão específica para a situação desejada.
+                            <br><br>
+                            <strong>Como funciona:</strong> Você preenche informações como temperatura, 
+                            horário, dia da semana, e dados de consumo anterior. A IA analisa tudo 
+                            e calcula quanto de energia será consumida naquele momento específico.
+                            <br><br>
+                            💡 <em>Ideal para testar cenários, fazer simulações ou análises detalhadas.</em>
                         </p>
 
                         <form id="manualPredictForm" class="prediction-form">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="temperature">Temperatura (°C):</label>
-                                    <input type="number" id="temperature" value="25" step="0.1" class="input" required>
+                                    <label for="temperature">
+                                        <strong>🌡️ Temperatura (°C):</strong>
+                                        <br><small style="color: var(--gray);">Quanto calor ou frio está fazendo?</small>
+                                    </label>
+                                    <input type="number" id="temperature" value="25" step="0.1" class="input" 
+                                           placeholder="Ex: 25 (graus Celsius)" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="hour">Hora (0-23):</label>
-                                    <input type="number" id="hour" value="14" min="0" max="23" class="input" required>
+                                    <label for="hour">
+                                        <strong>🕐 Hora do Dia:</strong>
+                                        <br><small style="color: var(--gray);">Que horas são? (0 = meia-noite, 12 = meio-dia, 23 = 11 da noite)</small>
+                                    </label>
+                                    <input type="number" id="hour" value="14" min="0" max="23" class="input" 
+                                           placeholder="Ex: 14 (2 da tarde)" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="dayOfWeek">Dia da Semana:</label>
+                                    <label for="dayOfWeek">
+                                        <strong>📅 Dia da Semana:</strong>
+                                        <br><small style="color: var(--gray);">Qual dia? (afeta padrões de consumo)</small>
+                                    </label>
                                     <select id="dayOfWeek" class="input" required>
                                         <option value="0">Segunda-feira</option>
                                         <option value="1">Terça-feira</option>
@@ -123,7 +190,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="month">Mês:</label>
+                                    <label for="month">
+                                        <strong>📆 Mês do Ano:</strong>
+                                        <br><small style="color: var(--gray);">Qual mês? (estações do ano afetam consumo)</small>
+                                    </label>
                                     <select id="month" class="input" required>
                                         <option value="1">Janeiro</option>
                                         <option value="2">Fevereiro</option>
@@ -145,40 +215,65 @@
                                 <div class="form-group checkbox-group">
                                     <label>
                                         <input type="checkbox" id="isWeekend">
-                                        Final de Semana
+                                        <strong>Final de Semana</strong>
+                                        <br><small style="color: var(--gray);">Marque se for sábado ou domingo</small>
                                     </label>
                                 </div>
                                 <div class="form-group checkbox-group">
                                     <label>
                                         <input type="checkbox" id="isHoliday">
-                                        Feriado
+                                        <strong>Feriado</strong>
+                                        <br><small style="color: var(--gray);">Marque se for feriado (padrão de consumo diferente)</small>
                                     </label>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Consumo Histórico (kWh):</label>
+                                <label>
+                                    <strong>⚡ Consumo Histórico (kWh):</strong>
+                                    <br><small style="color: var(--gray);">
+                                        Quanto foi consumido nas horas anteriores? (kWh = quilowatt-hora, a unidade da conta de luz)
+                                    </small>
+                                </label>
                                 <div class="form-row">
-                                    <input type="number" id="lag1h" placeholder="1h atrás" value="5200" class="input" required>
-                                    <input type="number" id="lag24h" placeholder="24h atrás" value="5100" class="input" required>
-                                    <input type="number" id="lag168h" placeholder="168h atrás" value="5050" class="input" required>
+                                    <input type="number" id="lag1h" placeholder="1 hora atrás (Ex: 1.2)" 
+                                           value="1.2" step="0.01" class="input" required 
+                                           title="Consumo de 1 hora atrás">
+                                    <input type="number" id="lag24h" placeholder="24 horas atrás (Ex: 1.1)" 
+                                           value="1.1" step="0.01" class="input" required
+                                           title="Consumo de 24 horas (1 dia) atrás">
+                                    <input type="number" id="lag168h" placeholder="168 horas atrás (Ex: 1.0)" 
+                                           value="1.0" step="0.01" class="input" required
+                                           title="Consumo de 168 horas (7 dias/1 semana) atrás">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="rollingMean">Média Móvel 24h (kWh):</label>
-                                    <input type="number" id="rollingMean" value="5150" class="input" required>
+                                    <label for="rollingMean">
+                                        <strong>📊 Média das Últimas 24h (kWh):</strong>
+                                        <br><small style="color: var(--gray);">
+                                            Qual foi o consumo médio nas últimas 24 horas?
+                                        </small>
+                                    </label>
+                                    <input type="number" id="rollingMean" value="1.09" step="0.01" class="input" 
+                                           placeholder="Ex: 1.09" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="rollingStd">Desvio Padrão 24h:</label>
-                                    <input type="number" id="rollingStd" value="150" class="input" required>
+                                    <label for="rollingStd">
+                                        <strong>📈 Variação das Últimas 24h:</strong>
+                                        <br><small style="color: var(--gray);">
+                                            Quanto o consumo variou? (número que mostra se oscilou muito ou pouco)
+                                        </small>
+                                    </label>
+                                    <input type="number" id="rollingStd" value="0.9" step="0.01" class="input" 
+                                           placeholder="Ex: 0.9" required>
                                 </div>
                             </div>
 
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-calculator"></i>
-                                Calcular Previsão
+                                Calcular Previsão Personalizada
                             </button>
                         </form>
 
@@ -191,34 +286,59 @@
             <section id="dashboard" class="section">
                 <h2 class="section-title">
                     <i class="fas fa-chart-bar"></i>
-                    Analytics Dashboard
+                    Painel de Resultados
                 </h2>
+                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                    Aqui você visualiza as previsões em gráfico e informações sobre a Inteligência Artificial
+                </p>
 
                 <div class="dashboard-grid">
                     <div class="card">
-                        <h3 class="card-title">Gráfico de Forecasting</h3>
+                        <h3 class="card-title">📈 Gráfico de Previsões</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">
+                            Este gráfico mostra o consumo previsto hora por hora. Quanto mais alto, 
+                            maior o consumo esperado de energia.
+                        </p>
                         <div style="position: relative; height: 400px; width: 100%;">
                             <canvas id="predictionChart"></canvas>
                         </div>
+                        <p style="color: var(--gray); margin-top: 1rem; font-size: 0.9rem;">
+                            💡 <em>O gráfico aparecerá aqui depois que você fizer uma "Previsão Rápida" acima.</em>
+                        </p>
                     </div>
 
                     <div class="card">
-                        <h3 class="card-title">Estatísticas do Modelo</h3>
+                        <h3 class="card-title">🤖 Informações da Inteligência Artificial</h3>
+                        <p style="color: var(--gray); margin-bottom: 1rem;">
+                            Detalhes técnicos sobre o "cérebro" que faz as previsões:
+                        </p>
                         <div id="modelStats" class="stats-grid">
                             <div class="stat-item">
-                                <span class="stat-label">Status:</span>
+                                <span class="stat-label">
+                                    <strong>Status da IA:</strong>
+                                    <br><small style="color: var(--gray);">Está funcionando?</small>
+                                </span>
                                 <span class="stat-value" id="modelStatus">Carregando...</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-label">Parâmetros:</span>
+                                <span class="stat-label">
+                                    <strong>Parâmetros (Conexões):</strong>
+                                    <br><small style="color: var(--gray);">Quantas "conexões" o cérebro artificial tem</small>
+                                </span>
                                 <span class="stat-value" id="modelParams">-</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-label">Features:</span>
+                                <span class="stat-label">
+                                    <strong>Variáveis Analisadas:</strong>
+                                    <br><small style="color: var(--gray);">Quantas informações a IA usa para decidir</small>
+                                </span>
                                 <span class="stat-value" id="modelFeatures">-</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-label">Sequência:</span>
+                                <span class="stat-label">
+                                    <strong>Janela de Tempo:</strong>
+                                    <br><small style="color: var(--gray);">Quantas horas passadas a IA olha de cada vez</small>
+                                </span>
                                 <span class="stat-value" id="modelSequence">-</span>
                             </div>
                         </div>
@@ -230,45 +350,161 @@
             <section id="sobre" class="section">
                 <h2 class="section-title">
                     <i class="fas fa-info-circle"></i>
-                    Sobre o Sistema
+                    Entenda Como Funciona
                 </h2>
+                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                    Explicações simples e detalhadas sobre o projeto
+                </p>
 
                 <div class="about-grid">
                     <div class="card">
-                        <h3 class="card-title">🎯 Missão</h3>
+                        <h3 class="card-title">🎯 O Que Este Sistema Faz?</h3>
                         <p>
-                            Plataforma enterprise de forecasting energético utilizando 
-                            redes neurais LSTM (Long Short-Term Memory) de última geração 
-                            para otimização e gestão proativa de recursos.
+                            <strong>Em termos simples:</strong> Este sistema prevê quanto de energia elétrica 
+                            será consumida em uma residência nas próximas horas ou dias.
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>Como consegue fazer isso?</strong> Usando Inteligência Artificial (IA), 
+                            mais especificamente uma "rede neural LSTM" - imagine como um cérebro artificial 
+                            que aprendeu padrões de consumo estudando <strong>mais de 2 milhões de medições reais</strong> 
+                            feitas em uma casa na França durante 4 anos seguidos (2006-2010).
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>O que ele consegue prever?</strong> O consumo de energia até 7 dias 
+                            (168 horas) à frente, considerando fatores como: horário do dia, dia da semana, 
+                            mês do ano, temperatura, se é feriado, e como foi o consumo nas horas anteriores.
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            💡 <strong>Pense assim:</strong> É como ter um meteorologista que, ao invés de 
+                            prever o tempo, prevê o consumo de energia da sua casa!
                         </p>
                     </div>
 
                     <div class="card">
-                        <h3 class="card-title">🛠️ Stack Tecnológico</h3>
+                        <h3 class="card-title">🛠️ Tecnologias Utilizadas</h3>
+                        <p style="margin-bottom: 1rem;">
+                            <strong>Ferramentas e programas usados para construir este sistema:</strong>
+                        </p>
                         <ul class="tech-list">
-                            <li><i class="fas fa-check"></i> TensorFlow 2.15 + Keras (AI Engine)</li>
-                            <li><i class="fas fa-check"></i> FastAPI (Backend Microservice)</li>
-                            <li><i class="fas fa-check"></i> Python (IA e Backend)</li>
-                            <li><i class="fas fa-check"></i> HTML/CSS/JS (Frontend)</li>
-                            <li><i class="fas fa-check"></i> Chart.js (Visualizações)</li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>TensorFlow 2.15+ / Keras 3.x</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Bibliotecas que criam e treinam a Inteligência Artificial
+                                </small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>FastAPI 0.104+</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Sistema que conecta o site com a IA (como uma ponte)
+                                </small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>Python 3.11+</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Linguagem de programação usada para escrever o código
+                                </small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>Pandas, NumPy, Scikit-learn</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Ferramentas para organizar, processar e analisar os dados
+                                </small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>Chart.js 4.x</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Biblioteca que desenha os gráficos bonitos que você vê
+                                </small>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> <strong>Uvicorn</strong>
+                                <br><small style="color: var(--gray); margin-left: 1.5rem;">
+                                    Servidor web que mantém o sistema funcionando
+                                </small>
+                            </li>
                         </ul>
                     </div>
 
                     <div class="card">
-                        <h3 class="card-title">📊 Dataset</h3>
+                        <h3 class="card-title">📊 De Onde Vieram os Dados?</h3>
                         <p>
-                            Dados sintéticos baseados em padrões reais de consumo de energia, 
-                            incluindo variáveis como temperatura, hora do dia, dia da semana, 
-                            e padrões sazonais.
+                            <strong>📚 Fonte dos Dados:</strong> UCI Machine Learning Repository 
+                            (um site que disponibiliza dados reais para pesquisas científicas)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>🏠 Nome do Dataset:</strong> "Individual Household Electric Power Consumption" 
+                            (Consumo de Energia Elétrica Residencial Individual)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>📅 Quando foram coletados:</strong> De Dezembro de 2006 até Novembro de 2010 
+                            (quase 4 anos completos = 47 meses de dados)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>📍 Onde:</strong> Em uma casa real na cidade de Sceaux, França
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>🔢 Quantidade de Dados:</strong>
+                            <br>• <strong>2.049.280</strong> medições originais (uma medição a cada minuto!)
+                            <br>• <strong>34.168</strong> horas de dados processados (agrupamos de minuto em minuto para hora em hora)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>📊 O que foi medido:</strong>
+                            <br>• Consumo total de energia da casa (em kilowatts)
+                            <br>• Voltagem da eletricidade
+                            <br>• Intensidade da corrente elétrica
+                            <br>• Consumo separado da cozinha, lavanderia e ar-condicionado/aquecedor
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            💡 <strong>Resumindo:</strong> Equipamentos especiais mediram o consumo de energia 
+                            dessa casa francesa minuto a minuto durante 4 anos. Pegamos todos esses dados 
+                            reais e ensinamos nossa IA a reconhecer os padrões!
                         </p>
                     </div>
 
                     <div class="card">
-                        <h3 class="card-title">🎓 Projeto Acadêmico</h3>
+                        <h3 class="card-title">🎓 Sobre Este Projeto</h3>
                         <p>
-                            Desenvolvido para a disciplina de IA do curso de Gestão de T.I., 
-                            demonstrando aplicações práticas de Deep Learning em problemas 
-                            reais de gestão de recursos.
+                            <strong>Contexto:</strong> Este projeto foi desenvolvido em 2025 como trabalho 
+                            da disciplina de <strong>Inteligência Artificial</strong> do curso de 
+                            <strong>Gestão de T.I.</strong>
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>Objetivo educacional:</strong> Demonstrar na prática como a IA pode 
+                            resolver problemas reais, neste caso:
+                            <br>• Prever consumo de energia
+                            <br>• Ajudar a economizar recursos
+                            <br>• Contribuir para sustentabilidade (usando energia de forma mais consciente)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>Tipo de IA usada:</strong> Rede Neural LSTM (Long Short-Term Memory = 
+                            Memória de Curto-Longo Prazo) - uma arquitetura especial de IA que é boa em 
+                            entender padrões que acontecem ao longo do tempo, como consumo de energia que 
+                            varia hora a hora.
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>📊 Quão boa é a IA? (Métricas de Precisão):</strong>
+                        </p>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li>
+                                <strong>MAE: 0.36 kWh</strong> - Em média, a IA erra por apenas 0.36 kWh 
+                                (imagine errar o consumo de uma lâmpada de 36W ligada por 10 horas)
+                            </li>
+                            <li>
+                                <strong>R²: 50%</strong> - A IA consegue explicar metade da variação do 
+                                consumo (50% é considerado razoável para este tipo de previsão)
+                            </li>
+                            <li>
+                                <strong>MAPE: 43.45%</strong> - O erro percentual médio é de 43% 
+                                (significa que às vezes erra mais, às vezes menos)
+                            </li>
+                            <li>
+                                <strong>Velocidade: menos de 100ms</strong> - A IA faz cada previsão 
+                                em menos de um décimo de segundo!
+                            </li>
+                        </ul>
+                        <p style="margin-top: 1rem;">
+                            💡 <strong>Resumindo:</strong> É um projeto real, com dados reais, mostrando 
+                            como IA pode ser aplicada no mundo real para resolver problemas práticos!
                         </p>
                     </div>
                 </div>
@@ -279,8 +515,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Manus-Predictor | Projeto de IA - Gestão de T.I.</p>
-            <p>Desenvolvido com <i class="fas fa-heart"></i> utilizando Deep Learning</p>
+            <p>&copy; 2025 EnergyFlow AI | Projeto de IA - Gestão de T.I.</p>
+            <p>Treinado com 2.049.280 medições reais do <strong>UCI ML Repository</strong> (França, 2006-2010)</p>
         </div>
     </footer>
 

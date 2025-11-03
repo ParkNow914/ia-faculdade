@@ -189,7 +189,7 @@ async def forecast_next_hours(request: ForecastRequest):
     
     try:
         # Carregar dados históricos (demo)
-        historical_path = 'data/energy_consumption.csv'
+        historical_path = 'data/raw/energy_consumption.csv'
         
         if not os.path.exists(historical_path):
             raise HTTPException(

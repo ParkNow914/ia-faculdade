@@ -14,14 +14,14 @@ from datetime import datetime
 
 def process_uci_dataset(input_path='data/raw/household_power_consumption.txt', 
                         output_path='data/raw/energy_consumption.csv',
-                        num_days=730):
+                        num_days=None):
     """
     Processa o dataset UCI para o formato necessário.
     
     Args:
         input_path: Caminho para o arquivo UCI baixado
         output_path: Caminho para salvar o dataset processado
-        num_days: Número de dias para usar (730 = 2 anos)
+        num_days: Número de dias para usar (None = TODOS os dados disponíveis)
     """
     
     print("="*80)
@@ -80,11 +80,14 @@ def process_uci_dataset(input_path='data/raw/household_power_consumption.txt',
     print(f"✅ Dados horários: {len(df_hourly):,} registros")
     print()
     
-    # Selecionar últimos N dias
-    num_hours = num_days * 24
-    df_final = df_hourly.tail(num_hours).copy()
-    
-    print(f"📊 Selecionando últimos {num_days} dias ({num_hours:,} horas)...")
+    # Selecionar dados (todos ou últimos N dias)
+    if num_days is None:
+        df_final = df_hourly.copy()
+        print(f"📊 Usando TODOS os dados disponíveis: {len(df_final):,} horas")
+    else:
+        num_hours = num_days * 24
+        df_final = df_hourly.tail(num_hours).copy()
+        print(f"📊 Selecionando últimos {num_days} dias ({num_hours:,} horas)...")
     print()
     
     # Renomear coluna principal

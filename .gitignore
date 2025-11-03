@@ -53,6 +53,8 @@ Thumbs.db
 
 # Data
 data/raw/*.csv
+data/raw/*.txt
+data/raw/*.zip
 data/processed/*.csv
 *.parquet
 

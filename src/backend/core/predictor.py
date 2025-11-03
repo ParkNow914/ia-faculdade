@@ -45,7 +45,14 @@ class EnergyPredictor:
         """Carrega o modelo LSTM."""
         try:
             if os.path.exists(self.model_path):
-                self.model = keras.models.load_model(self.model_path)
+                # Tentar carregar com compile=False para Keras 3
+                self.model = keras.models.load_model(self.model_path, compile=False)
+                # Recompilar manualmente
+                self.model.compile(
+                    optimizer='adam',
+                    loss='mse',
+                    metrics=['mae', 'mape']
+                )
                 print(f"✅ Modelo carregado de: {self.model_path}")
             else:
                 print(f"⚠️ Modelo não encontrado em: {self.model_path}")

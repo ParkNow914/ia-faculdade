@@ -1,0 +1,27 @@
+services:
+  # Backend API
+  - type: web
+    name: energyflow-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: DEBUG
+        value: false
+      - key: LOG_LEVEL
+        value: INFO
+    healthCheckPath: /health
+
+  # Frontend Static Site
+  - type: web
+    name: energyflow-frontend
+    runtime: static
+    plan: free
+    buildCommand: echo "Static site - no build needed"
+    staticPublishPath: ./src/frontend
+    envVars:
+      - key: API_URL
+        sync: false
