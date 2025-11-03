@@ -10,7 +10,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.10.0
       - key: DEBUG
-        value: false
+        value: "false"
       - key: LOG_LEVEL
         value: INFO
     healthCheckPath: /health

@@ -633,10 +633,19 @@ body {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .tech-list i {
     color: var(--secondary);
+}
+
+.tech-list small {
+    color: var(--dark-gray);
+    display: block;
+    margin-left: 1.5rem;
+    line-height: 1.5;
 }
 
 /* ===================================
