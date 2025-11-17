@@ -28,6 +28,9 @@ RUN apt-get update && apt-get install -y \
     g++ \
     make \
     libgomp1 \
+    curl \
+    unzip \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar requirements primeiro (cache layer)
@@ -43,6 +46,21 @@ COPY data/ ./data/
 
 # Criar diretórios necessários
 RUN mkdir -p logs data/raw data/processed src/model/saved_models
+
+# Se o build receber MODEL_URL como build-arg, baixar e extrair durante o build
+ARG MODEL_URL
+RUN if [ -n "${MODEL_URL}" ]; then \
+            echo "🔁 MODEL_URL fornecido, tentando baixar..."; \
+            mkdir -p src/model/saved_models; \
+            TMPFILE="/tmp/$(basename ${MODEL_URL})"; \
+            curl -fSL "${MODEL_URL}" -o ${TMPFILE} || (echo "Falha ao baixar MODEL_URL" && exit 0); \
+            if echo "${TMPFILE}" | grep -qi \.zip$ ; then \
+                unzip -o ${TMPFILE} -d . || echo "Falha ao extrair zip do modelo"; \
+                rm -f ${TMPFILE}; \
+            else \
+                mv ${TMPFILE} src/model/saved_models/regression_model.pkl || echo "Falha ao mover o modelo para saved_models/regression_model.pkl"; \
+            fi; \
+        fi
 
 # Criar usuário não-root para segurança
 RUN useradd -m -u 1000 appuser && \
