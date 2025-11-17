@@ -34,7 +34,7 @@ uvicorn src.backend.main:app --reload
 ```
 
 ### 6. Modelos e Dados
-- [ ] `src/model/saved_models/lstm_model.h5` existe
+- [ ] `src/model/saved_models/regression_model.pkl` existe
 - [ ] Scalers existem no diretório
 - [ ] Tamanho total < 500MB (limite grátis)
 

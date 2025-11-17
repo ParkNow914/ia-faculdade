@@ -35,11 +35,21 @@ async def root():
     """
     Endpoint raiz da API.
     """
+    # Listar todas as rotas disponíveis para debug
+    routes_list = []
+    for route in router.routes:
+        if hasattr(route, 'path') and hasattr(route, 'methods'):
+            routes_list.append({
+                "path": route.path,
+                "methods": list(route.methods)
+            })
+    
     return {
-        "message": "🚀 Manus-Predictor API",
+        "message": "EnerVision AI API",
         "version": settings.APP_VERSION,
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
+        "available_routes": routes_list
     }
 
 
@@ -227,7 +237,24 @@ async def get_model_info():
     """
     Retorna informações sobre o modelo carregado.
     """
-    return predictor.get_model_info()
+    try:
+        model_info = predictor.get_model_info()
+        
+        # Se o modelo não está pronto, retornar resposta adequada
+        if not predictor.is_ready() or model_info.get('status') == 'not_ready':
+            return {
+                'status': 'not_ready',
+                'message': 'Modelo não está pronto. Execute o treinamento com: python src/model/train.py',
+                'model_loaded': False
+            }
+        
+        return model_info
+    except Exception as e:
+        logger.error(f"Erro ao buscar informações do modelo: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao buscar informações do modelo: {str(e)}"
+        )
 
 
 @router.get("/stats", tags=["Statistics"])

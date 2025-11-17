@@ -1,6 +1,6 @@
 """
-ENERGYFLOW AI - BACKEND API
-Sistema Inteligente de Previsão Energética com Deep Learning
+ENERVISION AI - BACKEND API
+Sistema Inteligente de Previsão Energética com Inteligência Artificial Avançada
 """
 
 import sys
@@ -44,6 +44,11 @@ app.add_middleware(
 
 # === INCLUIR ROTAS ===
 app.include_router(router)
+# Log das rotas registradas (para debug)
+print(f"📋 Rotas registradas: {len(router.routes)}")
+for route in router.routes:
+    if hasattr(route, 'path') and hasattr(route, 'methods'):
+        print(f"   {list(route.methods)} {route.path}")
 
 
 # === EXCEPTION HANDLERS ===
@@ -69,12 +74,12 @@ async def startup_event():
     Executado ao iniciar a aplicação.
     """
     print("="*80)
-    print("⚡ ENERGYFLOW AI - BACKEND API")
+    print("ENERVISION AI - BACKEND API")
     print("="*80)
-    print(f"📡 Servidor: {settings.HOST}:{settings.PORT}")
-    print(f"📚 Documentação: http://{settings.HOST}:{settings.PORT}/docs")
-    print(f"🔧 Versão: {settings.APP_VERSION}")
-    print(f"🧠 AI Engine: TensorFlow 2.15 + LSTM")
+    print(f"Servidor: {settings.HOST}:{settings.PORT}")
+    print(f"Documentacao: http://{settings.HOST}:{settings.PORT}/docs")
+    print(f"Versao: {settings.APP_VERSION}")
+    print(f"AI Engine: Scikit-learn + XGBoost (Regressao ML)")
     print("="*80)
 
 
@@ -83,7 +88,7 @@ async def shutdown_event():
     """
     Executado ao encerrar a aplicação.
     """
-    print("\n👋 Encerrando EnergyFlow AI...")
+    print("\n👋 Encerrando EnerVision AI...")
 
 
 # === MAIN ===
@@ -95,7 +100,8 @@ def main():
         "src.backend.main:app",
         host=settings.HOST,
         port=settings.PORT,
-        reload=settings.DEBUG,
+        reload=True,  # Sempre ativar reload para desenvolvimento
+        reload_dirs=["src"],  # Monitorar mudanças na pasta src
         log_level=settings.LOG_LEVEL.lower()
     )
 

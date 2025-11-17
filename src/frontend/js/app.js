@@ -1,7 +1,7 @@
 // ===================================
-// ENERGYFLOW AI - JAVASCRIPT
+// ENERVISION AI - JAVASCRIPT
 // Sistema Inteligente de Previsão Energética
-// Versão 2.0 - Ultra Aprimorado
+// Versão 3.0 - Inteligência Artificial Avançada
 // ===================================
 
 // Detectar automaticamente a URL da API (desenvolvimento vs produção)
@@ -18,7 +18,7 @@ let apiStatusInterval = null;
 // ===================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('%c🚀 EnergyFlow AI v2.0 inicializado', 'color: #667eea; font-size: 16px; font-weight: bold;');
+    console.log('%c🚀 EnerVision AI v3.0 inicializado', 'color: #667eea; font-size: 16px; font-weight: bold;');
     
     // Verificar status da API
     checkAPIStatus();
@@ -162,31 +162,70 @@ async function loadModelInfo() {
     
     try {
         const response = await fetch(`${API_URL}/model/info`);
+        
+        // Verificar se a resposta é OK
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
         const data = await response.json();
         
         if (data.status === 'ready') {
-            // Animação de contagem para os números
-            animateNumber(modelParams, 0, data.total_params, 1500);
-            animateNumber(modelFeatures, 0, data.n_features, 1000);
+            // Mostrar informações do modelo
+            if (data.n_estimators) {
+                modelParams.textContent = data.n_estimators.toLocaleString();
+            } else if (data.n_base_models) {
+                modelParams.textContent = `${data.n_base_models} modelos`;
+            } else {
+                modelParams.textContent = 'Ensemble';
+            }
+            
+            if (data.n_features) {
+                modelFeatures.textContent = data.n_features.toLocaleString();
+            } else {
+                modelFeatures.textContent = '-';
+            }
             
             modelStatus.innerHTML = '<span class="badge badge-success">✅ Carregado</span>';
-            modelSequence.innerHTML = `<strong>${data.sequence_length}h</strong>`;
+            modelSequence.innerHTML = '<strong>Regressão ML</strong>';
             
             // Adicionar informações extras
             console.log('%cℹ️ Informações do Modelo:', 'color: #3b82f6; font-weight: bold;');
-            console.log('  📊 Parâmetros:', data.total_params.toLocaleString());
-            console.log('  🔢 Features:', data.n_features);
-            console.log('  ⏱️ Sequência:', data.sequence_length + 'h');
-            console.log('  📐 Input Shape:', data.input_shape);
+            if (data.n_estimators) {
+                console.log('  🌳 Estimadores:', data.n_estimators.toLocaleString());
+            }
+            if (data.n_base_models) {
+                console.log('  🔀 Modelos base:', data.n_base_models);
+            }
+            console.log('  🔢 Features:', data.n_features || '-');
+            console.log('  📐 Tipo:', data.model_type || 'Ensemble');
             
         } else {
+            // Modelo não está pronto
             modelStatus.innerHTML = '<span class="badge badge-warning">❌ Não carregado</span>';
-            showError('modelStats', 
-                '⚠️ Modelo não está pronto. Execute o treinamento com: <code>python src/model/train.py</code>');
+            modelParams.textContent = '-';
+            modelFeatures.textContent = '-';
+            modelSequence.innerHTML = '<strong>Não disponível</strong>';
+            
+            const message = data.message || '⚠️ Modelo não está pronto. Execute o treinamento com: <code>python src/model/train.py</code>';
+            showError('modelStats', message);
+            
+            console.warn('⚠️ Modelo não está pronto:', data);
         }
     } catch (error) {
         console.error('Erro ao carregar info do modelo:', error);
         modelStatus.innerHTML = '<span class="badge badge-warning">❌ Erro</span>';
+        modelParams.textContent = '-';
+        modelFeatures.textContent = '-';
+        modelSequence.innerHTML = '<strong>Erro ao carregar</strong>';
+        
+        // Mostrar mensagem de erro mais amigável
+        showError('modelStats', 
+            `⚠️ Erro ao conectar com a API. Verifique se o servidor está rodando em ${API_URL}<br>` +
+            `💡 Sugestões:<br>` +
+            `• Verifique se a API está rodando (deve mostrar "API Online" no topo)<br>` +
+            `• Tente novamente em alguns segundos<br>` +
+            `• Se o erro persistir, verifique o console do navegador (F12).`);
     }
 }
 
@@ -370,8 +409,17 @@ async function handleQuickPredict() {
         const processingTime = Math.round(endTime - startTime);
         
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || `Erro na API: ${response.status}`);
+            let errorMessage = `Erro HTTP ${response.status}`;
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.detail || errorData.message || errorMessage;
+            } catch (e) {
+                // Se não conseguir parsear JSON, usar mensagem padrão
+                if (response.status === 404) {
+                    errorMessage = `Endpoint não encontrado. Verifique se o servidor está rodando e se os endpoints estão registrados.`;
+                }
+            }
+            throw new Error(errorMessage);
         }
         
         const data = await response.json();
@@ -442,46 +490,78 @@ function hideProgressBar() {
 function displayQuickPrediction(data) {
     const resultBox = document.getElementById('quickPredictResult');
     
+    // Validar dados
+    if (!data || !data.forecasts || !Array.isArray(data.forecasts) || data.forecasts.length === 0) {
+        showError('quickPredictResult', 'Erro: Dados de previsão inválidos ou vazios.');
+        return;
+    }
+    
     const forecasts = data.forecasts;
-    const avgConsumption = forecasts.reduce((sum, f) => sum + f.predicted_consumption, 0) / forecasts.length;
-    const maxConsumption = Math.max(...forecasts.map(f => f.predicted_consumption));
-    const minConsumption = Math.min(...forecasts.map(f => f.predicted_consumption));
+    const avgConsumption = forecasts.reduce((sum, f) => sum + (f.predicted_consumption || 0), 0) / forecasts.length;
+    const maxConsumption = Math.max(...forecasts.map(f => f.predicted_consumption || 0));
+    const minConsumption = Math.min(...forecasts.map(f => f.predicted_consumption || 0));
+    
+    // Validar valores
+    if (isNaN(avgConsumption) || isNaN(maxConsumption) || isNaN(minConsumption)) {
+        showError('quickPredictResult', 'Erro: Valores de previsão inválidos.');
+        return;
+    }
     
     resultBox.innerHTML = `
         <div class="result-title">📊 Previsão Concluída!</div>
         <p style="color: var(--gray); margin-bottom: 1rem;">
-            Analisamos os dados e previmos o consumo para as próximas <strong>${data.total_hours} horas</strong>. 
-            Aqui está um resumo:
+            Analisamos os dados históricos e previmos o consumo de energia para as próximas <strong>${data.total_hours} horas</strong> 
+            (${Math.round(data.total_hours / 24 * 10) / 10} dias). Aqui está um resumo do que esperamos:
         </p>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
             <div>
                 <div style="font-size: 0.875rem; color: var(--gray);">
                     📊 Consumo Médio Esperado
-                    <br><small>(quanto você vai gastar em média por hora)</small>
+                    <br><small style="font-size: 0.75rem;">(quanto de energia você vai gastar em média a cada hora durante todo o período previsto)</small>
                 </div>
                 <div class="result-value">${avgConsumption.toFixed(2)} kWh</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+                    ≈ ${(avgConsumption * 24).toFixed(2)} kWh por dia
+                </div>
             </div>
             <div>
                 <div style="font-size: 0.875rem; color: var(--gray);">
-                    ⚠️ Pico Máximo
-                    <br><small>(horário de maior consumo previsto)</small>
+                    ⚠️ Pico Máximo de Consumo
+                    <br><small style="font-size: 0.75rem;">(o maior consumo previsto em uma única hora - geralmente quando mais aparelhos estão ligados)</small>
                 </div>
                 <div class="result-value" style="color: var(--danger);">${maxConsumption.toFixed(2)} kWh</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+                    ${maxConsumption > avgConsumption * 1.5 ? '⚠️ Muito acima da média' : 'Dentro do esperado'}
+                </div>
             </div>
             <div>
                 <div style="font-size: 0.875rem; color: var(--gray);">
                     ✅ Consumo Mínimo
-                    <br><small>(horário de menor consumo previsto)</small>
+                    <br><small style="font-size: 0.75rem;">(o menor consumo previsto em uma única hora - geralmente quando poucos aparelhos estão ligados)</small>
                 </div>
                 <div class="result-value" style="color: var(--secondary);">${minConsumption.toFixed(2)} kWh</div>
+                <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+                    ${avgConsumption > 0 ? `Economia de ${((avgConsumption - minConsumption) / avgConsumption * 100).toFixed(1)}% vs média` : 'Valor mínimo'}
+                </div>
             </div>
         </div>
         <div style="margin-top: 1rem; padding: 1rem; background: var(--light-gray); border-radius: var(--radius-md);">
             <strong>⏰ Período da Previsão:</strong><br>
             De ${formatDate(data.start_time)} até ${formatDate(data.end_time)}
+            <br><small style="color: var(--gray); font-size: 0.875rem;">
+                (Previsão de ${data.total_hours} horas consecutivas)
+            </small>
         </div>
         <div style="margin-top: 1rem; padding: 1rem; background: #e8f4f8; border-radius: var(--radius-md); border-left: 4px solid #667eea;">
-            💡 <strong>Dica:</strong> Veja o gráfico abaixo para visualizar como o consumo varia ao longo do tempo!
+            💡 <strong>Como interpretar:</strong> O gráfico abaixo mostra como o consumo de energia varia hora por hora. 
+            Linhas mais altas = mais consumo. Use isso para planejar quando ligar aparelhos que consomem muita energia!
+        </div>
+        <div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-radius: var(--radius-md); border-left: 4px solid #ffc107;">
+            📊 <strong>Consumo Total Estimado:</strong> ${(avgConsumption * data.total_hours).toFixed(2)} kWh 
+            (média × ${data.total_hours} horas). 
+            <br><small style="color: var(--gray);">
+                💰 Se cada kWh custa R$ 0,80, isso representa aproximadamente R$ ${(avgConsumption * data.total_hours * 0.80).toFixed(2)} no período.
+            </small>
         </div>
     `;
     
@@ -554,15 +634,15 @@ function displayManualPrediction(data) {
     const consumption = data.predicted_consumption_kwh;
     
     if (consumption < 0.5) {
-        interpretation = 'Consumo <strong>muito baixo</strong> - equivale a poucos aparelhos ligados (lâmpadas, TV, etc.)';
+        interpretation = 'Consumo <strong>muito baixo</strong> - poucos aparelhos ligados (lâmpadas, TV, carregadores). Equivale a uma casa quase vazia.';
     } else if (consumption < 1.0) {
-        interpretation = 'Consumo <strong>baixo</strong> - uso normal de aparelhos básicos da casa';
+        interpretation = 'Consumo <strong>baixo</strong> - uso normal de aparelhos básicos (geladeira, TV, computador, lâmpadas). É o consumo típico de uma casa com poucas pessoas.';
     } else if (consumption < 2.0) {
-        interpretation = 'Consumo <strong>moderado</strong> - vários aparelhos em uso simultâneo';
+        interpretation = 'Consumo <strong>moderado</strong> - vários aparelhos em uso ao mesmo tempo (geladeira, TV, computador, máquina de lavar, etc.). É o consumo normal de uma família pequena.';
     } else if (consumption < 3.0) {
-        interpretation = 'Consumo <strong>alto</strong> - muitos aparelhos ligados ou uso de equipamentos potentes';
+        interpretation = 'Consumo <strong>alto</strong> - muitos aparelhos ligados simultaneamente ou uso de equipamentos potentes (micro-ondas, secadora, vários computadores). Família grande ou uso intensivo.';
     } else {
-        interpretation = 'Consumo <strong>muito alto</strong> - uso intensivo de energia (ar-condicionado, aquecedor, etc.)';
+        interpretation = 'Consumo <strong>muito alto</strong> - uso intensivo de energia (ar-condicionado, aquecedor elétrico, chuveiro elétrico, ou muitos aparelhos potentes ligados ao mesmo tempo).';
     }
     
     resultBox.innerHTML = `
@@ -579,8 +659,15 @@ function displayManualPrediction(data) {
             • kWh = quilowatt-hora (unidade da conta de luz)
         </div>
         <div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-radius: var(--radius-md); border-left: 4px solid #ffc107;">
-            💡 <strong>Referência:</strong> Uma casa típica consome entre 0.5 e 3.0 kWh por hora, 
-            dependendo dos aparelhos ligados e do horário do dia.
+            💡 <strong>Referência para entender o valor:</strong> 
+            <br>• Uma casa pequena (1-2 pessoas): 0.5 a 1.5 kWh por hora
+            <br>• Uma casa média (3-4 pessoas): 1.0 a 2.5 kWh por hora  
+            <br>• Uma casa grande (5+ pessoas): 1.5 a 3.5 kWh por hora
+            <br><br>
+            <strong>Exemplos práticos:</strong>
+            <br>• 1 kWh = deixar 10 lâmpadas LED (10W cada) ligadas por 10 horas
+            <br>• 1 kWh = usar um ar-condicionado de 12.000 BTUs por 1 hora
+            <br>• 1 kWh = tomar um banho de 15 minutos no chuveiro elétrico (4.500W)
         </div>
     `;
     
@@ -634,8 +721,12 @@ function initChart() {
                     beginAtZero: false,
                     ticks: {
                         callback: function(value) {
-                            return value.toFixed(0) + ' kWh';
+                            return value.toFixed(2) + ' kWh';
                         }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Consumo de Energia (kWh)'
                     }
                 },
                 x: {
@@ -969,9 +1060,9 @@ document.head.appendChild(style);
 
 console.log('%c' + `
 ╔═══════════════════════════════════════════════════╗
-║   🚀 EnergyFlow AI v2.0 ULTRA                    ║
+║   🚀 EnerVision AI v3.0                          ║
 ║   Sistema Inteligente de Previsão Energética    ║
-║   Powered by Deep Learning (LSTM Networks)       ║
+║   Powered by Advanced AI (Ensemble ML)           ║
 ║   Desenvolvido com ❤️ • Novembro 2025           ║
 ╚═══════════════════════════════════════════════════╝
 `, 'color: #667eea; font-weight: bold; font-family: monospace; font-size: 12px;');
@@ -988,7 +1079,7 @@ console.log('');
 console.log('%c🛠️ Tecnologias:', 'color: #8b5cf6; font-weight: bold;');
 console.log('  • Frontend: HTML5, CSS3, Vanilla JS');
 console.log('  • Backend: FastAPI + Python 3.11');
-console.log('  • IA: TensorFlow 2.15 + LSTM Networks');
+console.log('  • IA: Scikit-learn + XGBoost (Regressão ML)');
 console.log('  • Data: 2.049.280 medições reais');
 console.log('');
 

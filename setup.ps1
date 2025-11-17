@@ -53,8 +53,8 @@ if (Test-Path "data\raw\energy_consumption.csv") {
 
 # Treinar modelo
 Write-Host ""
-Write-Host "[6/6] Treinando modelo LSTM..." -ForegroundColor Yellow
-if (Test-Path "src\model\saved_models\lstm_model.h5") {
+Write-Host "[6/6] Treinando modelo de Regressão ML..." -ForegroundColor Yellow
+if (Test-Path "src\model\saved_models\regression_model.pkl") {
     $resposta = Read-Host "  Modelo já existe. Retreinar? (s/N)"
     if ($resposta -eq "s" -or $resposta -eq "S") {
         python src\model\train.py

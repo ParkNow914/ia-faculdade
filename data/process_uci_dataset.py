@@ -43,9 +43,18 @@ def process_uci_dataset(input_path='data/raw/household_power_consumption.txt',
     print(f"📂 Carregando dataset de: {input_path}")
     
     # Carregar dataset
+    # Carregar dataset em chunks para melhor performance
+    print("📂 Carregando dataset completo (pode levar alguns minutos)...")
     df = pd.read_csv(input_path, sep=';', low_memory=False, 
                      parse_dates={'DateTime': ['Date', 'Time']},
-                     dayfirst=True)
+                     dayfirst=True,
+                     dtype={'Global_active_power': 'float32',
+                            'Global_reactive_power': 'float32',
+                            'Voltage': 'float32',
+                            'Global_intensity': 'float32',
+                            'Sub_metering_1': 'float32',
+                            'Sub_metering_2': 'float32',
+                            'Sub_metering_3': 'float32'})
     
     print(f"✅ Dataset carregado: {len(df):,} registros")
     print(f"📅 Período: {df['DateTime'].min()} até {df['DateTime'].max()}")
@@ -59,25 +68,50 @@ def process_uci_dataset(input_path='data/raw/household_power_consumption.txt',
     for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors='coerce')
     
-    # Remover linhas com valores faltantes
-    df_clean = df.dropna()
-    print(f"✅ Após limpeza: {len(df_clean):,} registros ({len(df_clean)/len(df)*100:.1f}%)")
+    # Remover apenas linhas onde TODAS as colunas numéricas são NaN
+    # (mais permissivo - mantém mais dados)
+    print(f"📊 Registros antes da limpeza: {len(df):,}")
+    
+    # Remover apenas se Global_active_power for NaN (coluna principal)
+    # Preencher outros NaN com 0 ou média para manter mais dados
+    df_clean = df[df['Global_active_power'].notna()].copy()
+    
+    # Preencher NaN em outras colunas com 0 (para sub_metering) ou média (para voltage/intensity)
+    for col in ['Sub_metering_1', 'Sub_metering_2', 'Sub_metering_3']:
+        df_clean[col] = df_clean[col].fillna(0)
+    
+    for col in ['Voltage', 'Global_intensity']:
+        if df_clean[col].notna().sum() > 0:
+            df_clean[col] = df_clean[col].fillna(df_clean[col].mean())
+        else:
+            df_clean[col] = df_clean[col].fillna(0)
+    
+    df_clean['Global_reactive_power'] = df_clean['Global_reactive_power'].fillna(0)
+    
+    print(f"✅ Após limpeza otimizada: {len(df_clean):,} registros ({len(df_clean)/len(df)*100:.1f}% mantidos)")
+    print(f"   (Estratégia: manter máximo de dados possível)")
     print()
     
     # Agregar para dados horários (o UCI tem dados por minuto)
-    print("⏰ Agregando para dados horários...")
-    df_clean['timestamp'] = df_clean['DateTime'].dt.floor('H')
+    print("⏰ Agregando para dados horários (usando TODOS os minutos disponíveis)...")
+    df_clean['timestamp'] = df_clean['DateTime'].dt.floor('h')  # 'h' em vez de 'H' (deprecated)
     
-    df_hourly = df_clean.groupby('timestamp').agg({
+    # Agregar usando TODOS os dados disponíveis
+    df_hourly = df_clean.groupby('timestamp', as_index=False).agg({
         'Global_active_power': 'mean',  # kW médio na hora
         'Voltage': 'mean',
         'Global_intensity': 'mean',
         'Sub_metering_1': 'sum',  # Wh total na hora
         'Sub_metering_2': 'sum',
         'Sub_metering_3': 'sum'
-    }).reset_index()
+    })
     
-    print(f"✅ Dados horários: {len(df_hourly):,} registros")
+    # Ordenar por timestamp
+    df_hourly = df_hourly.sort_values('timestamp').reset_index(drop=True)
+    
+    print(f"✅ Dados horários agregados: {len(df_hourly):,} registros")
+    print(f"   (De {len(df_clean):,} registros de minutos)")
+    print(f"   (Taxa de agregação: {len(df_clean)/len(df_hourly):.1f} minutos por hora)")
     print()
     
     # Selecionar dados (todos ou últimos N dias)

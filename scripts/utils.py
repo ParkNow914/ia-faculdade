@@ -40,7 +40,7 @@ def check_system_health():
     checks = []
     
     # Verificar modelo
-    model_file = project_root / "src/model/saved_models/lstm_model.h5"
+    model_file = project_root / "src/model/saved_models/regression_model.pkl"
     checks.append(("Modelo treinado", model_file.exists()))
     
     # Verificar scalers

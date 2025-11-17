@@ -1,5 +1,5 @@
 """
-Manus-Predictor - Sistema de Previsão de Energia com LSTM
+Manus-Predictor - Sistema de Previsão de Energia com Regressão ML
 """
 
 __version__ = "1.0.0"

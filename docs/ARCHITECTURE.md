@@ -42,23 +42,22 @@ O Manus-Predictor é um sistema **Full-Stack Enterprise** desenvolvido com arqui
                          │
 ┌────────────────────────▼────────────────────────────────────────┐
 │                      CAMADA DE INTELIGÊNCIA                     │
-│                   (Machine Learning - LSTM)                     │
+│               (Machine Learning - Regressão ML)                 │
 ├─────────────────────────────────────────────────────────────────┤
-│  • Framework: TensorFlow 2.x + Keras                            │
-│  • Modelo: LSTM (Long Short-Term Memory)                        │
+│  • Framework: Scikit-learn 1.3+ + XGBoost 2.0+                 │
+│  • Modelo: Ensemble de Regressão ML                             │
 │  • Arquitetura:                                                 │
-│    - Input: (24 timesteps, 13 features)                         │
-│    - LSTM Layer 1: 128 units + Dropout + BatchNorm              │
-│    - LSTM Layer 2: 64 units + Dropout + BatchNorm               │
-│    - LSTM Layer 3: 32 units + Dropout + BatchNorm               │
-│    - Dense Layer 1: 64 units (ReLU)                             │
-│    - Dense Layer 2: 32 units (ReLU)                             │
-│    - Output: 1 unit (Linear)                                    │
+│    - Random Forest: 300 estimadores, max_depth=25               │
+│    - Gradient Boosting: 300 estimadores, max_depth=10           │
+│    - XGBoost: 300 estimadores, max_depth=10                     │
+│    - Ridge Regression: alpha=0.5                                │
+│    - Lasso Regression: alpha=0.05                               │
+│    - Meta-learner: StackingRegressor (Ridge)                    │
 │  • Preprocessing:                                               │
-│    - MinMaxScaler para normalização                             │
+│    - StandardScaler para normalização                           │
 │    - Feature engineering temporal                               │
-│    - Criação de sequências temporais                            │
-│  • Serialização: H5 + Pickle                                    │
+│    - Seleção de features                                        │
+│  • Serialização: Joblib (PKL)                                   │
 └─────────────────────────────────────────────────────────────────┘
                          │
                          │ File System
@@ -78,7 +77,7 @@ O Manus-Predictor é um sistema **Full-Stack Enterprise** desenvolvido com arqui
 │    - Lags de consumo (1h, 24h, 168h)                            │
 │    - Rolling statistics (média, std 24h)                        │
 │  • Modelos Salvos:                                              │
-│    - lstm_model.h5 (modelo treinado)                            │
+│    - regression_model.pkl (modelo treinado)                     │
 │    - scaler_features.pkl (scaler de features)                   │
 │    - scaler_target.pkl (scaler de target)                       │
 │    - model_config.json (configuração)                           │
@@ -93,7 +92,7 @@ O Manus-Predictor é um sistema **Full-Stack Enterprise** desenvolvido com arqui
 
 ```
 Dataset CSV → Preprocessing → Feature Engineering → 
-Sequencing → Train/Test Split → LSTM Training → 
+Train/Test Split → ML Regression Training → 
 Model Serialization → Saved Models
 ```
 
@@ -102,7 +101,7 @@ Model Serialization → Saved Models
 ```
 Frontend (User Input) → FastAPI (Validation) → 
 Predictor Service (Load Model) → Preprocessing → 
-LSTM Inference → Denormalization → JSON Response → 
+ML Regression Inference → Denormalization → JSON Response → 
 Frontend (Display)
 ```
 
@@ -136,7 +135,7 @@ Frontend (Display)
 - Load balancer (nginx/traefik) na frente
 
 ### Vertical Scaling
-- Modelo LSTM pode ser otimizado (quantização)
+- Modelo ML pode ser otimizado (hiperparâmetros, feature selection)
 - Cache de predições frequentes (Redis)
 - GPU para inferência em larga escala
 

@@ -37,7 +37,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 ```
 
 ✅ Verifica endpoint /health
-✅ 60s de start period (tempo para carregar TensorFlow)
+✅ 60s de start period (tempo para carregar modelo ML)
 
 ## ✅ ESTRUTURA COPIADA PARA CONTAINER
 
@@ -55,7 +55,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 │       ├── model.py
 │       ├── preprocessing.py
 │       └── saved_models/
-│           ├── lstm_model.h5 ✅
+│           ├── regression_model.pkl ✅
 │           └── scalers/ ✅
 ├── data/
 │   └── processed/
@@ -123,7 +123,7 @@ Auto-Deploy: On Commit
 
 ### "Out of memory during build"
 - Render Free tem 512MB RAM
-- TensorFlow pode usar muita memória
+- Modelos ML podem usar memória (já otimizado)
 - ✅ Solução: Dockerfile já otimizado
 
 ### "Application failed to respond"

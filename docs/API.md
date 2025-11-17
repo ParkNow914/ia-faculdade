@@ -42,11 +42,10 @@ Verifica o status da API e do modelo.
   "model_loaded": true,
   "model_info": {
     "status": "ready",
-    "model_path": "src/model/saved_models/lstm_model.h5",
-    "input_shape": "(None, 24, 13)",
-    "output_shape": "(None, 1)",
-    "total_params": 156789,
-    "sequence_length": 24,
+    "model_path": "src/model/saved_models/regression_model.pkl",
+    "model_type": "ensemble",
+    "n_estimators": 300,
+    "n_base_models": 5,
     "n_features": 13
   }
 }
@@ -207,11 +206,10 @@ Retorna informações sobre o modelo carregado.
 ```json
 {
   "status": "ready",
-  "model_path": "src/model/saved_models/lstm_model.h5",
-  "input_shape": "(None, 24, 13)",
-  "output_shape": "(None, 1)",
-  "total_params": 156789,
-  "sequence_length": 24,
+  "model_path": "src/model/saved_models/regression_model.pkl",
+  "model_type": "ensemble",
+  "n_estimators": 300,
+  "n_base_models": 5,
   "n_features": 13
 }
 ```

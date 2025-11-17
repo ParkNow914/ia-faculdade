@@ -1,3 +1,3 @@
 """
-Módulo de modelo - LSTM para previsão de energia
+Módulo de modelo - Regressão ML para previsão de energia
 """

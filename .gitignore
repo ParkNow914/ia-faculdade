@@ -23,14 +23,12 @@ wheels/
 .installed.cfg
 *.egg
 
-# TensorFlow/Keras
+# Modelos antigos (TensorFlow/Keras - não usado mais)
 *.h5
 *.hdf5
 *.pb
-saved_models/
-checkpoints/
-logs/
-tensorboard/
+saved_models/checkpoints/
+logs/tensorboard/
 
 # Jupyter Notebook
 .ipynb_checkpoints

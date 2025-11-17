@@ -1,5 +1,5 @@
 """
-CONFIGURAÇÕES DO ENERGYFLOW AI
+CONFIGURAÇÕES DO MANUS-PREDICTOR
 Centraliza todas as configurações da aplicação.
 """
 
@@ -10,13 +10,13 @@ import os
 
 class Settings(BaseSettings):
     """
-    Configurações da aplicação EnergyFlow AI.
+    Configurações da aplicação Manus-Predictor.
     """
     
     # API
-    APP_NAME: str = "EnergyFlow AI"
+    APP_NAME: str = "EnerVision AI"
     APP_VERSION: str = "1.0.0"
-    APP_DESCRIPTION: str = "Sistema Inteligente de Previsão Energética com Deep Learning"
+    APP_DESCRIPTION: str = "Sistema Inteligente de Previsão Energética com Machine Learning"
     
     # Server
     HOST: str = "0.0.0.0"
@@ -37,11 +37,11 @@ class Settings(BaseSettings):
     ]
     
     # Paths
-    MODEL_PATH: str = "src/model/saved_models/lstm_model.h5"
+    MODEL_PATH: str = "src/model/saved_models/regression_model.pkl"
     SCALER_DIR: str = "src/model/saved_models"
     
     # Model
-    SEQUENCE_LENGTH: int = 24
+    MODEL_TYPE: str = "regression_ml"
     
     # Logging
     LOG_LEVEL: str = "INFO"

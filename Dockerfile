@@ -8,7 +8,7 @@ FROM python:3.10-slim
 
 # Metadados
 LABEL maintainer="EnergyFlow AI Team"
-LABEL description="Sistema Inteligente de Previsão Energética com Deep Learning"
+LABEL description="Sistema Inteligente de Previsão Energética com Regressão ML"
 LABEL version="1.0.0"
 
 # Variáveis de ambiente
@@ -21,7 +21,7 @@ ENV PYTHONUNBUFFERED=1 \
 # Diretório de trabalho
 WORKDIR /app
 
-# Instalar dependências do sistema necessárias para TensorFlow e compilação
+# Instalar dependências do sistema necessárias para XGBoost e compilação
 RUN apt-get update && apt-get install -y \
     --no-install-recommends \
     gcc \

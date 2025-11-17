@@ -2,10 +2,10 @@
 
 ## 📋 Descrição do Projeto
 
-Plataforma **Full-Stack Enterprise** de análise preditiva e forecasting de demanda energética utilizando **Deep Learning (LSTM)** com arquitetura de microsserviços moderna e escalável.
+Plataforma **Full-Stack Enterprise** de análise preditiva e forecasting de demanda energética utilizando **Machine Learning (Regressão)** com arquitetura de microsserviços moderna e escalável.
 
 ### 🎯 Objetivo
-Prever consumo de energia elétrica com precisão de 96% usando redes neurais recorrentes avançadas, permitindo gestão proativa e otimização de recursos energéticos.
+Prever consumo de energia elétrica com alta precisão usando algoritmos de regressão ML (Random Forest, Gradient Boosting, Ensemble), permitindo gestão proativa e otimização de recursos energéticos de forma rápida e eficiente.
 
 ---
 
@@ -28,8 +28,9 @@ Prever consumo de energia elétrica com precisão de 96% usando redes neurais re
 └────────────────┬────────────────────────────────┘
                  │
 ┌────────────────▼────────────────────────────────┐
-│     AI/ML LAYER (Deep Learning Engine)          │
-│  • LSTM Neural Network (156k parâmetros)        │
+│     AI/ML LAYER (Machine Learning Engine)       │
+│  • Ensemble Regression Models                   │
+│  • Random Forest & Gradient Boosting            │
 │  • Feature Engineering Pipeline                 │
 │  • Model Serving & Inference                    │
 │  • Real-time Prediction Service                 │
@@ -46,11 +47,11 @@ Prever consumo de energia elétrica com precisão de 96% usando redes neurais re
 - **Pydantic** - Validação de dados com type hints
 
 ### AI/ML & Data Science
-- **TensorFlow 2.15** - Framework de Deep Learning
-- **Keras** - API neural networks de alto nível
+- **Scikit-learn** - Machine Learning e preprocessing
+- **XGBoost** - Gradient Boosting otimizado
 - **Pandas** - Data manipulation e análise
 - **NumPy** - Computação numérica otimizada
-- **Scikit-learn** - ML preprocessing e métricas
+- **Joblib** - Serialização de modelos
 
 ### Frontend
 - **HTML5/CSS3** - Interface moderna
@@ -147,7 +148,7 @@ PROJETO DE IA-LISSON/
 ├── src/
 │   ├── model/                   # Camada de IA
 │   │   ├── train.py             # Script de treinamento
-│   │   ├── model.py             # Arquitetura LSTM
+│   │   ├── model.py             # Arquitetura de Regressão ML
 │   │   ├── preprocessing.py     # Pipeline de dados
 │   │   └── saved_models/        # Modelos serializados
 │   ├── backend/                 # API FastAPI
@@ -175,10 +176,11 @@ PROJETO DE IA-LISSON/
 
 ## 🎓 Conceitos Aplicados (Gestão de T.I.)
 
-### 1. **Machine Learning & Deep Learning**
-- Redes neurais recorrentes (LSTM)
-- Séries temporais
+### 1. **Machine Learning & Regressão**
+- Algoritmos de regressão (Random Forest, Gradient Boosting)
+- Ensemble methods
 - Feature engineering
+- Otimização de hiperparâmetros
 
 ### 2. **Arquitetura de Software**
 - Separação em camadas
@@ -199,8 +201,9 @@ PROJETO DE IA-LISSON/
 
 ## 📈 Resultados Esperados
 
-- **Acurácia**: ~85-90% (MAE < 10%)
-- **Latência**: < 100ms por previsão
+- **Acurácia**: Alta precisão com R² > 0.90 (MAE otimizado)
+- **Latência**: < 50ms por previsão (mais rápido que redes neurais)
+- **Treinamento**: Rápido e eficiente (minutos vs horas)
 - **Escalabilidade**: Assíncrono, preparado para concorrência
 
 ---
@@ -229,12 +232,14 @@ MIT License - Livre para uso acadêmico e comercial.
 ## 🔥 Diferenciais do Projeto
 
 ✅ **Não é chatbot** - Sistema de previsão real  
-✅ **100% treinado** - Modelo LSTM custom  
+✅ **100% treinado** - Modelos de regressão ML otimizados  
 ✅ **Dataset público** - Dados reais de energia  
 ✅ **Full-Stack** - Backend + Frontend + IA  
 ✅ **Enterprise** - Arquitetura profissional  
 ✅ **Always Free** - Sem custos de infraestrutura  
-✅ **Inovador** - Aplicação prática de Deep Learning  
+✅ **Eficiente** - Treinamento rápido e previsões em tempo real  
+✅ **Alta Performance** - Machine Learning tradicional mais leve que Deep Learning  
 
-#   F o r c e   r e b u i l d   -   1 1 / 0 3 / 2 0 2 5   1 6 : 4 5 : 0 9  
+#   F o r c e   r e b u i l d   -   1 1 / 0 3 / 2 0 2 5   1 6 : 4 5 : 0 9 
+ 
  
