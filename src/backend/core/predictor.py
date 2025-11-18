@@ -6,26 +6,18 @@ Encapsula a lógica de carregamento do modelo e predição.
 import os
 import sys
 from pathlib import Path
-import numpy as np
-import joblib
 from typing import List, Dict, Any
-import pandas as pd
 
 # Adicionar path do projeto
 project_root = str(Path(__file__).parent.parent.parent.parent)
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from src.model.preprocessing import EnergyDataPreprocessor
-
+from src.backend.core.config import settings
 
 import gc
 import logging
 from typing import Optional, Dict, Any
-import os
-import joblib
-import pandas as pd
-import numpy as np
 
 # Configurar logger
 logger = logging.getLogger(__name__)
@@ -69,6 +61,8 @@ class EnergyPredictor:
     
     def _load_model(self):
         """Carrega o modelo de forma preguiçosa."""
+        import joblib
+        
         if self._model is not None:
             return
             
@@ -103,6 +97,8 @@ class EnergyPredictor:
     
     def _load_preprocessor(self):
         """Carrega o preprocessador de forma preguiçosa."""
+        from src.model.preprocessing import EnergyDataPreprocessor
+        
         if self._preprocessor is not None:
             return
             
@@ -131,10 +127,12 @@ class EnergyPredictor:
                 
         return self._is_loaded and self._model is not None and self._preprocessor is not None
     
-    def _prepare_single_prediction_data(self, data: Dict[str, Any]) -> pd.DataFrame:
+    def _prepare_single_prediction_data(self, data: Dict[str, Any]) -> Any:
         """
         Prepara DataFrame completo para previsão única, preenchendo colunas ausentes.
         """
+        import pandas as pd
+        
         # Valores padrão baseados em médias típicas do dataset
         defaults = {
             'consumption_kwh': data.get('consumption_lag_1h', 1.0),  # Usar lag_1h como base
@@ -183,6 +181,8 @@ class EnergyPredictor:
         Returns:
             Previsão de consumo em kWh
         """
+        import numpy as np
+        
         if not self.is_ready():
             raise RuntimeError("Modelo não está pronto. Treine o modelo primeiro.")
         
@@ -222,10 +222,12 @@ class EnergyPredictor:
         except Exception as e:
             raise RuntimeError(f"Erro ao fazer previsão: {str(e)}")
     
-    def _engineer_features_for_prediction(self, df: pd.DataFrame) -> pd.DataFrame:
+    def _engineer_features_for_prediction(self, df: Any) -> Any:
         """
         Versão do engineer_features que funciona para previsão única (sem dados históricos).
         """
+        import numpy as np
+        
         # Garantir que todas as colunas necessárias existam
         if 'Sub_metering_1' not in df.columns:
             df['Sub_metering_1'] = 0.0
@@ -319,7 +321,7 @@ class EnergyPredictor:
         
         return predictions
     
-    def predict_next_hours(self, historical_data: pd.DataFrame, hours: int = 24) -> List[Dict[str, Any]]:
+    def predict_next_hours(self, historical_data: Any, hours: int = 24) -> List[Dict[str, Any]]:
         """
         Prevê as próximas N horas baseado em dados históricos.
         Atualiza features temporais (hora, dia, mês) e lags para cada hora futura.
@@ -331,6 +333,9 @@ class EnergyPredictor:
         Returns:
             Lista de previsões com timestamp
         """
+        import pandas as pd
+        import numpy as np
+        
         if not self.is_ready():
             raise RuntimeError("Modelo não está pronto. Treine o modelo primeiro.")
         
@@ -513,7 +518,7 @@ class EnergyPredictor:
         
         info = {
             'status': 'ready',
-            'model_path': self.model_path,
+            'model_path': self._model_path,
             'model_type': 'regression_ml'
         }
         
@@ -552,13 +557,13 @@ class EnergyPredictor:
 # Instância global do preditor (singleton)
 _predictor_instance = None
 
-def get_predictor(model_path: str, scaler_dir: str) -> EnergyPredictor:
+def get_predictor_instance() -> EnergyPredictor:
     """
     Retorna a instância singleton do preditor.
     """
     global _predictor_instance
     
     if _predictor_instance is None:
-        _predictor_instance = EnergyPredictor(model_path, scaler_dir)
+        _predictor_instance = EnergyPredictor(settings.MODEL_PATH, settings.SCALER_DIR)
     
     return _predictor_instance

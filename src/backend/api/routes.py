@@ -18,7 +18,7 @@ from src.backend.api.schemas import (
     HealthResponse, ErrorResponse,
     ForecastRequest, ForecastOutput
 )
-from src.backend.core.predictor import get_predictor
+from src.backend.core.predictor import EnergyPredictor
 from src.backend.core.config import settings
 from src.backend.core.logger import setup_logger
 from src.backend.core.metrics import metrics, PerformanceMonitor
@@ -30,8 +30,16 @@ logger = setup_logger(__name__)
 # Criar router
 router = APIRouter()
 
-# Obter instância do preditor
-predictor = get_predictor(settings.MODEL_PATH, settings.SCALER_DIR)
+# Lazy loading do preditor para economizar memória
+_predictor = None
+
+def get_predictor_instance():
+    """Retorna uma instância do preditor com carregamento preguiçoso."""
+    global _predictor
+    if _predictor is None:
+        from src.backend.core.predictor import EnergyPredictor
+        _predictor = EnergyPredictor(settings.MODEL_PATH, settings.SCALER_DIR)
+    return _predictor
 
 
 @router.get("/", tags=["Root"])
@@ -62,6 +70,7 @@ async def health_check():
     """
     Verifica o status da API e do modelo.
     """
+    predictor = get_predictor_instance()
     model_info = predictor.get_model_info() if predictor.is_ready() else None
     
     return HealthResponse(
@@ -94,6 +103,7 @@ async def predict_consumption(data: PredictionInput):
     - Previsão de consumo em kWh
     """
     with PerformanceMonitor("/predict"):
+        predictor = get_predictor_instance()
         if not predictor.is_ready():
             logger.error("Tentativa de previsão com modelo não carregado")
             raise HTTPException(
@@ -149,6 +159,7 @@ async def predict_batch(data: BatchPredictionInput):
     **Retorna:**
     - Lista de previsões
     """
+    predictor = get_predictor_instance()
     if not predictor.is_ready():
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -195,6 +206,7 @@ async def forecast_next_hours(request: ForecastRequest):
     
     **Nota:** Requer dados históricos. Em produção, carrega do banco de dados.
     """
+    predictor = get_predictor_instance()
     if not predictor.is_ready():
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -242,6 +254,7 @@ async def get_model_info():
     Retorna informações sobre o modelo carregado.
     """
     try:
+        predictor = get_predictor_instance()
         model_info = predictor.get_model_info()
         
         # Se o modelo não está pronto, retornar resposta adequada
