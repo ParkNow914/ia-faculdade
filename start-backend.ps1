@@ -14,7 +14,7 @@ if ($processes) {
 }
 
 Write-Host ""
-Write-Host "🚀 Iniciando Manus-Predictor Backend..." -ForegroundColor Cyan
+Write-Host "🚀 Iniciando EnergyFlow AI Backend..." -ForegroundColor Cyan
 Write-Host ""
 
 # Ativar ambiente virtual

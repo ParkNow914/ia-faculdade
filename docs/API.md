@@ -1,4 +1,4 @@
-# 📡 Documentação da API - Manus-Predictor
+# 📡 Documentação da API - EnergyFlow AI
 
 ## Base URL
 
@@ -19,7 +19,7 @@ Informações básicas da API.
 **Response:**
 ```json
 {
-  "message": "🚀 Manus-Predictor API",
+  "message": "🚀 EnergyFlow AI API",
   "version": "1.0.0",
   "docs": "/docs",
   "health": "/health"

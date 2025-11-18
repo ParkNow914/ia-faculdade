@@ -1,5 +1,5 @@
 # ============================================
-# MANUS-PREDICTOR - DEPENDÊNCIAS PYTHON
+# ENERGYFLOW AI - DEPENDÊNCIAS PYTHON
 # ============================================
 
 # ===== MACHINE LEARNING & IA =====

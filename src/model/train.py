@@ -143,7 +143,7 @@ def main():
     Pipeline completo de treinamento.
     """
     print("="*80)
-    print("🚀 MANUS-PREDICTOR - TREINAMENTO DO MODELO DE REGRESSÃO ML")
+    print("🚀 ENERGYFLOW AI - TREINAMENTO DO MODELO DE REGRESSÃO ML")
     print("="*80)
     
     # === PASSO 1: VERIFICAR DATASET REAL ===

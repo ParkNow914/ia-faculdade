@@ -1,5 +1,5 @@
 """
-CONFIGURAÇÕES DO MANUS-PREDICTOR
+CONFIGURAÇÕES DO ENERGYFLOW AI
 Centraliza todas as configurações da aplicação.
 """
 
@@ -10,11 +10,11 @@ import os
 
 class Settings(BaseSettings):
     """
-    Configurações da aplicação Manus-Predictor.
+    Configurações da aplicação EnergyFlow AI.
     """
     
     # API
-    APP_NAME: str = "EnerVision AI"
+    APP_NAME: str = "EnergyFlow AI"
     APP_VERSION: str = "1.0.0"
     APP_DESCRIPTION: str = "Sistema Inteligente de Previsão Energética com Machine Learning"
     

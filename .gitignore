@@ -56,10 +56,9 @@ data/raw/*.zip
 data/processed/*.csv
 *.parquet
 
-# Models (exceto example)
-src/model/saved_models/*.h5
-src/model/saved_models/*.pkl
-!src/model/saved_models/.gitkeep
+# Models (mantemos artefatos finais no repositório para deploy)
+src/model/saved_models/*.tmp
+src/model/saved_models/*.bak
 
 # Logs
 *.log

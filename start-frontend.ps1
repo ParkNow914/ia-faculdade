@@ -3,7 +3,7 @@
 # Inicia servidor HTTP para o frontend
 # ============================================
 
-Write-Host "🎨 Iniciando Manus-Predictor Frontend..." -ForegroundColor Cyan
+Write-Host "🎨 Iniciando EnergyFlow AI Frontend..." -ForegroundColor Cyan
 Write-Host ""
 
 Write-Host "Frontend será iniciado em: http://localhost:8080" -ForegroundColor Yellow

@@ -1,8 +1,8 @@
-# 🏗️ Arquitetura do Sistema Manus-Predictor
+# 🏗️ Arquitetura do Sistema EnergyFlow AI
 
 ## Visão Geral
 
-O Manus-Predictor é um sistema **Full-Stack Enterprise** desenvolvido com arquitetura em **três camadas** independentes e escaláveis.
+O EnergyFlow AI é um sistema **Full-Stack Enterprise** desenvolvido com arquitetura em **três camadas** independentes e escaláveis.
 
 ---
 

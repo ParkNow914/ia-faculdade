@@ -45,7 +45,7 @@ async def root():
             })
     
     return {
-        "message": "EnerVision AI API",
+        "message": "EnergyFlow AI API",
         "version": settings.APP_VERSION,
         "docs": "/docs",
         "health": "/health",

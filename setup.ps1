@@ -1,10 +1,10 @@
 # ============================================
 # SCRIPT DE INICIALIZAÇÃO RÁPIDA
-# Manus-Predictor - Sistema de Previsão de Energia
+# EnergyFlow AI - Sistema de Previsão de Energia
 # ============================================
 
 Write-Host "================================================" -ForegroundColor Cyan
-Write-Host "  MANUS-PREDICTOR - INICIALIZAÇÃO RÁPIDA" -ForegroundColor Cyan
+Write-Host "  ENERGYFLOW AI - INICIALIZAÇÃO RÁPIDA" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 

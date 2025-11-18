@@ -1,5 +1,5 @@
 """
-ENERVISION AI - BACKEND API
+ENERGYFLOW AI - BACKEND API
 Sistema Inteligente de Previsão Energética com Inteligência Artificial Avançada
 """
 
@@ -20,11 +20,6 @@ from datetime import datetime
 
 from src.backend.core.config import settings
 from src.backend.api.routes import router
-import urllib.request
-from pathlib import Path
-import os
-import zipfile
-import shutil
 
 
 # === CRIAR APLICAÇÃO ===
@@ -79,48 +74,8 @@ async def startup_event():
     Executado ao iniciar a aplicação.
     """
     print("="*80)
-    print("ENERVISION AI - BACKEND API")
+    print("ENERGYFLOW AI - BACKEND API")
     print("="*80)
-    # Tentar garantir que o modelo esteja presente: se não existir e a variável
-    # de ambiente MODEL_URL estiver definida, fará o download automático.
-    model_path = Path(settings.MODEL_PATH)
-    if not model_path.exists():
-        model_url = os.environ.get('MODEL_URL') or os.getenv('MODEL_URL')
-        if model_url:
-            try:
-                model_path.parent.mkdir(parents=True, exist_ok=True)
-                print(f"🔁 Modelo não encontrado. Baixando de: {model_url}")
-
-                # Baixar para um arquivo temporário
-                tmp_file = Path('/tmp') / Path(model_url).name
-                urllib.request.urlretrieve(model_url, str(tmp_file))
-
-                # Se for um zip, extrair mantendo estrutura
-                if str(tmp_file).lower().endswith('.zip'):
-                    try:
-                        with zipfile.ZipFile(tmp_file, 'r') as z:
-                            z.extractall(path='.')
-                        print(f"✅ Arquivo zip extraído no diretório do projeto")
-                    except Exception as ze:
-                        print(f"⚠️ Falha ao extrair zip: {ze}")
-                else:
-                    # Salvar diretamente no caminho do modelo
-                    shutil.move(str(tmp_file), str(model_path))
-                    print(f"✅ Modelo baixado para: {model_path}")
-
-                # Limpar arquivo temporário se ainda existir
-                try:
-                    if tmp_file.exists():
-                        tmp_file.unlink()
-                except Exception:
-                    pass
-
-            except Exception as e:
-                print(f"⚠️ Falha ao baixar ou extrair o modelo: {e}")
-        else:
-            print(f"[AVISO] Modelo não encontrado em: {settings.MODEL_PATH}")
-            print("[INFO] Para deploys automáticos, defina a variável de ambiente MODEL_URL com a URL do artefato do modelo (pode ser .pkl ou .zip com a pasta src/model/saved_models/).")
-
     print(f"Servidor: {settings.HOST}:{settings.PORT}")
     print(f"Documentacao: http://{settings.HOST}:{settings.PORT}/docs")
     print(f"Versao: {settings.APP_VERSION}")
@@ -133,7 +88,7 @@ async def shutdown_event():
     """
     Executado ao encerrar a aplicação.
     """
-    print("\n👋 Encerrando EnerVision AI...")
+    print("\n👋 Encerrando EnergyFlow AI...")
 
 
 # === MAIN ===

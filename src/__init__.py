@@ -1,5 +1,5 @@
 """
-Manus-Predictor - Sistema de Previsão de Energia com Regressão ML
+EnergyFlow AI - Sistema de Previsão de Energia com Regressão ML
 """
 
 __version__ = "1.0.0"

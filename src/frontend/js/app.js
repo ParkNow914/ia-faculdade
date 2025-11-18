@@ -1,5 +1,5 @@
 // ===================================
-// ENERVISION AI - JAVASCRIPT
+// ENERGYFLOW AI - JAVASCRIPT
 // Sistema Inteligente de Previsão Energética
 // Versão 3.0 - Inteligência Artificial Avançada
 // ===================================
@@ -9,16 +9,20 @@ const API_URL = window.location.hostname === 'localhost' || window.location.host
     ? 'http://localhost:8000'
     : 'https://energyflow-api.onrender.com';
 
+const MODEL_ACCURACY = '99.97%';
+
 let predictionChart = null;
 let isLoading = false;
 let apiStatusInterval = null;
+let scrollTopBtn = null;
+let scrollProgressBar = null;
 
 // ===================================
 // INICIALIZAÇÃO
 // ===================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('%c🚀 EnerVision AI v3.0 inicializado', 'color: #667eea; font-size: 16px; font-weight: bold;');
+    console.log('%c🚀 EnergyFlow AI v3.0 inicializado', 'color: #667eea; font-size: 16px; font-weight: bold;');
     
     // Verificar status da API
     checkAPIStatus();
@@ -40,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Adicionar tooltips dinâmicos
     initializeTooltips();
+    
+    initHeroBadges();
+    initScrollUtilities();
     
     console.log('%c✅ Sistema pronto para uso!', 'color: #10b981; font-weight: bold;');
 });
@@ -66,6 +73,8 @@ async function checkAPIStatus() {
             statusText.innerHTML = `🟢 API Online <small style="opacity: 0.8;">(${responseTime}ms)</small>`;
             statusText.style.color = '#10b981';
             console.log(`%c✅ API respondeu em ${responseTime}ms`, 'color: #10b981;');
+            updateLatencyBadge(`${responseTime} ms`);
+            updateDeployBadge('Online', true);
             
             // Notificação visual sutil
             showToast('✅ Conectado à API com sucesso!', 'success', 2000);
@@ -75,6 +84,7 @@ async function checkAPIStatus() {
             statusText.textContent = '⚠️ Modelo não carregado';
             statusText.style.color = '#f59e0b';
             console.warn('⚠️ Modelo não está carregado');
+            updateDeployBadge('Modelo indisponível', false);
         }
     } catch (error) {
         statusDot.classList.remove('online');
@@ -83,6 +93,8 @@ async function checkAPIStatus() {
         statusText.style.color = '#ef4444';
         console.error('%c❌ Erro ao conectar com API:', 'color: #ef4444; font-weight: bold;', error);
         showToast('❌ Não foi possível conectar à API', 'error', 3000);
+        updateDeployBadge('Offline', false);
+        updateLatencyBadge('--');
     }
 }
 
@@ -829,18 +841,6 @@ function formatTime(dateString) {
 }
 
 // ===================================
-// REFRESH STATUS PERIODICAMENTE
-// ===================================
-
-// Verificar status da API a cada 60 segundos
-// Apenas verifica o status, não faz previsões automáticas
-setInterval(() => {
-    if (!isLoading) {
-        checkAPIStatus();
-    }
-}, 60000);
-
-// ===================================
 // ANIMAÇÕES E EFEITOS VISUAIS
 // ===================================
 
@@ -881,6 +881,67 @@ function initializeTooltips() {
             element.style.cursor = 'help';
         }
     });
+}
+
+function initHeroBadges() {
+    updateHeroAccuracy();
+    updateLatencyBadge('--');
+    updateDeployBadge('Verificando...', true);
+}
+
+function updateHeroAccuracy() {
+    setBadgeValue('badgeAccuracy', MODEL_ACCURACY);
+}
+
+function updateLatencyBadge(value) {
+    setBadgeValue('badgeLatency', value);
+}
+
+function updateDeployBadge(text, isOnline = true) {
+    const badge = document.getElementById('badgeDeploy');
+    if (badge) {
+        badge.textContent = text;
+        badge.classList.toggle('badge-offline', !isOnline);
+    }
+}
+
+function setBadgeValue(id, value) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+function initScrollUtilities() {
+    scrollTopBtn = document.getElementById('scrollTopButton');
+    scrollProgressBar = document.getElementById('scrollProgressBar');
+    
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+    
+    window.addEventListener('scroll', handleScrollUtilities, { passive: true });
+    handleScrollUtilities();
+}
+
+function handleScrollUtilities() {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = docHeight > 0 ? (scrollPosition / docHeight) * 100 : 0;
+    
+    if (scrollProgressBar) {
+        scrollProgressBar.style.width = `${progress}%`;
+    }
+    
+    if (scrollTopBtn) {
+        if (scrollPosition > 400) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    }
 }
 
 // ===================================
@@ -1060,7 +1121,7 @@ document.head.appendChild(style);
 
 console.log('%c' + `
 ╔═══════════════════════════════════════════════════╗
-║   🚀 EnerVision AI v3.0                          ║
+║   🚀 EnergyFlow AI v3.0                          ║
 ║   Sistema Inteligente de Previsão Energética    ║
 ║   Powered by Advanced AI (Ensemble ML)           ║
 ║   Desenvolvido com ❤️ • Novembro 2025           ║
@@ -1087,29 +1148,6 @@ console.log('%c💡 Dica Pro:', 'color: #10b981; font-weight: bold;');
 console.log('  Todos os logs detalhados aparecem aqui no console!');
 console.log('  Use as ferramentas de desenvolvedor para debug.');
 console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #667eea;');
-
-// ===================================
-// BACK TO TOP BUTTON
-// ===================================
-
-const backToTopButton = document.getElementById('backToTop');
-
-if (backToTopButton) {
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add('visible');
-        } else {
-            backToTopButton.classList.remove('visible');
-        }
-    });
-
-    backToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-}
 
 // ===================================
 // ENHANCED STAT CARD ANIMATIONS

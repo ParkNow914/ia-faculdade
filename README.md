@@ -208,6 +208,20 @@ PROJETO DE IA-LISSON/
 
 ---
 
+## 📦 Artefatos do Modelo & Render Deploy
+
+- Os arquivos salvos em `src/model/saved_models/` agora são versionados (retirados do `.gitignore`), garantindo que o Render receba o modelo treinado durante o build.
+- Sempre que gerar um novo artefato (`regression_model.pkl`, `scaler_features.pkl`, etc.), execute:
+  ```
+  git add src/model/saved_models/*.pkl
+  git commit -m "Atualiza artefatos do modelo"
+  git push
+  ```
+- Opcionalmente, defina a env `MODEL_URL` no Render para baixar automaticamente um artefato hospedado (S3, GDrive, etc.). O build script já suporta `.pkl` ou `.zip`.
+- Sem esses arquivos versionados (ou sem `MODEL_URL`), o backend não encontra o modelo e as previsões falham no deploy.
+
+---
+
 ## 🌐 Deploy Gratuito (Always Free)
 
 ### Opções de Hospedagem:
@@ -239,7 +253,3 @@ MIT License - Livre para uso acadêmico e comercial.
 ✅ **Always Free** - Sem custos de infraestrutura  
 ✅ **Eficiente** - Treinamento rápido e previsões em tempo real  
 ✅ **Alta Performance** - Machine Learning tradicional mais leve que Deep Learning  
-
-#   F o r c e   r e b u i l d   -   1 1 / 0 3 / 2 0 2 5   1 6 : 4 5 : 0 9 
- 
- 

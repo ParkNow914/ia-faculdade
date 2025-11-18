@@ -41,7 +41,7 @@ def test_forecast():
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("TESTE DA API MANUS-PREDICTOR")
+    print("TESTE DA API ENERGYFLOW AI")
     print("=" * 60)
     print()
     

@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#667eea">
     <meta name="description" content="Sistema inteligente de previsão de consumo energético usando Machine Learning (Regressão) com dados reais UCI">
     <meta name="keywords" content="energia, previsão, regressão, machine learning, IA, scikit-learn">
-    <title>EnerVision AI - Inteligência Artificial para Previsão Energética</title>
+    <title>EnergyFlow AI - Inteligência Artificial para Previsão Energética</title>
     
     <!-- Favicons modernos -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -25,13 +25,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="scroll-progress">
+        <div class="scroll-progress__bar" id="scrollProgressBar"></div>
+    </div>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-brain"></i>
-                    <h1>EnerVision <span style="font-weight: 300; opacity: 0.9;">AI</span></h1>
+                    <h1>EnergyFlow <span style="font-weight: 300; opacity: 0.9;">AI</span></h1>
                 </div>
                 <nav class="nav">
                     <a href="#predicao" class="nav-link active">Predição</a>
@@ -49,6 +52,9 @@
 
     <!-- Hero Section -->
     <section class="hero fade-in">
+        <span class="hero-shape hero-shape-1"></span>
+        <span class="hero-shape hero-shape-2"></span>
+        <span class="hero-shape hero-shape-3"></span>
         <div class="container">
             <div class="hero-content">
                 <h2 class="hero-title">⚡ Previsão Inteligente de Consumo de Energia</h2>
@@ -60,6 +66,33 @@
                     💡 <em>Pense nisso como um "meteorologista de energia" - assim como a previsão do tempo, 
                     nosso sistema analisa padrões passados para prever o consumo futuro!</em>
                 </p>
+                <div class="hero-ctas">
+                    <a href="#predicao" class="btn btn-primary btn-hero">
+                        <i class="fas fa-bolt"></i>
+                        <span>Começar Agora</span>
+                    </a>
+                    <a href="#sobre" class="btn btn-secondary btn-hero">
+                        <i class="fas fa-book-open"></i>
+                        <span>Ver Detalhes</span>
+                    </a>
+                </div>
+                <div class="hero-badges">
+                    <div class="badge-card">
+                        <span class="badge-label">Precisão da IA</span>
+                        <strong id="badgeAccuracy">99.97%</strong>
+                        <small>Validado com dados reais</small>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-label">Tempo de Resposta</span>
+                        <strong id="badgeLatency">-</strong>
+                        <small>Atualizado em tempo real</small>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-label">Status do Deploy</span>
+                        <strong id="badgeDeploy">Verificando...</strong>
+                        <small>Frontend + Backend sincronizados</small>
+                    </div>
+                </div>
                 <div class="hero-stats">
                     <div class="stat-card">
                         <i class="fas fa-brain"></i>
@@ -429,7 +462,7 @@
                     <div class="card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border-left: 4px solid #8b5cf6;">
                         <h3 class="card-title">📈 Acompanhe Seu Progresso</h3>
                         <p style="margin-bottom: 1rem;">
-                            <strong>Use o EnerVision AI para monitorar:</strong>
+                            <strong>Use o EnergyFlow AI para monitorar:</strong>
                         </p>
                         <ul style="margin-left: 1.5rem; line-height: 2;">
                             <li>Compare previsões com consumo real para identificar padrões</li>
@@ -619,10 +652,14 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 <strong>EnerVision AI</strong> | Sistema Inteligente de Previsão Energética</p>
+            <p>&copy; 2025 <strong>EnergyFlow AI</strong> | Sistema Inteligente de Previsão Energética</p>
             <p>Desenvolvido com Inteligência Artificial | Treinado com 2.049.280 medições reais do <strong>UCI ML Repository</strong> (França, 2006-2010)</p>
         </div>
     </footer>
+
+    <button class="scroll-top-button" id="scrollTopButton" aria-label="Voltar ao topo">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
