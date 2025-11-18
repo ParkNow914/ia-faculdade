@@ -173,7 +173,7 @@ async function loadModelInfo() {
     const modelSequence = document.getElementById('modelSequence');
     
     try {
-        const response = await fetch(`${API_URL}/model/info`);
+        const response = await fetch(`${API_URL}/health`);
         
         // Verificar se a resposta é OK
         if (!response.ok) {
@@ -182,18 +182,20 @@ async function loadModelInfo() {
         
         const data = await response.json();
         
-        if (data.status === 'ready') {
-            // Mostrar informações do modelo
-            if (data.n_estimators) {
-                modelParams.textContent = data.n_estimators.toLocaleString();
-            } else if (data.n_base_models) {
-                modelParams.textContent = `${data.n_base_models} modelos`;
+        if (data.model_loaded && data.model_info) {
+            const modelInfo = data.model_info;
+            
+            // Atualizar informações do modelo
+            if (modelInfo.n_estimators) {
+                modelParams.textContent = modelInfo.n_estimators.toLocaleString();
+            } else if (modelInfo.n_base_models) {
+                modelParams.textContent = `${modelInfo.n_base_models} modelos`;
             } else {
                 modelParams.textContent = 'Ensemble';
             }
             
-            if (data.n_features) {
-                modelFeatures.textContent = data.n_features.toLocaleString();
+            if (modelInfo.n_features) {
+                modelFeatures.textContent = modelInfo.n_features.toLocaleString();
             } else {
                 modelFeatures.textContent = '-';
             }
@@ -201,16 +203,16 @@ async function loadModelInfo() {
             modelStatus.innerHTML = '<span class="badge badge-success">✅ Carregado</span>';
             modelSequence.innerHTML = '<strong>Regressão ML</strong>';
             
-            // Adicionar informações extras
+            // Log das informações do modelo
             console.log('%cℹ️ Informações do Modelo:', 'color: #3b82f6; font-weight: bold;');
-            if (data.n_estimators) {
-                console.log('  🌳 Estimadores:', data.n_estimators.toLocaleString());
+            if (modelInfo.n_estimators) {
+                console.log('  🌳 Estimadores:', modelInfo.n_estimators.toLocaleString());
             }
-            if (data.n_base_models) {
-                console.log('  🔀 Modelos base:', data.n_base_models);
+            if (modelInfo.n_base_models) {
+                console.log('  🔀 Modelos base:', modelInfo.n_base_models);
             }
-            console.log('  🔢 Features:', data.n_features || '-');
-            console.log('  📐 Tipo:', data.model_type || 'Ensemble');
+            console.log('  🔢 Features:', modelInfo.n_features || '-');
+            console.log('  📐 Tipo:', modelInfo.model_type || 'Ensemble');
             
         } else {
             // Modelo não está pronto
