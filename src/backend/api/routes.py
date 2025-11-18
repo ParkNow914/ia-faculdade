@@ -7,6 +7,10 @@ from fastapi import APIRouter, HTTPException, status
 from datetime import datetime
 import pandas as pd
 import os
+import psutil
+import gc
+import logging
+from typing import Dict, Any
 
 from src.backend.api.schemas import (
     PredictionInput, PredictionOutput,
@@ -295,7 +299,7 @@ async def get_statistics():
         )
 
 
-@router.get("/metrics", tags=["Monitoring"])
+@router.get("/metrics", response_model=dict, tags=["System"])
 async def get_metrics():
     """
     Retorna métricas de performance da API.
@@ -307,3 +311,53 @@ async def get_metrics():
     - Erros recentes
     """
     return metrics.get_metrics()
+
+
+@router.get("/system/memory", tags=["System"])
+async def get_memory_usage() -> Dict[str, Any]:
+    """
+    Retorna informações sobre o uso de memória do sistema.
+    
+    **Retorna:**
+    - Uso de memória do processo atual
+    - Uso de memória do sistema
+    - Estatísticas de coleta de lixo
+    """
+    try:
+        # Obter informações do processo atual
+        process = psutil.Process()
+        mem_info = process.memory_info()
+        
+        # Coletar estatísticas de memória
+        gc.collect()  # Forçar coleta de lixo antes de medir
+        
+        # Informações de memória do sistema
+        system_mem = psutil.virtual_memory()
+        
+        return {
+            "process": {
+                "rss_mb": mem_info.rss / (1024 * 1024),  # Resident Set Size
+                "vms_mb": mem_info.vms / (1024 * 1024),   # Virtual Memory Size
+                "percent": process.memory_percent(),
+                "threads": process.num_threads(),
+            },
+            "system": {
+                "total_mb": system_mem.total / (1024 * 1024),
+                "available_mb": system_mem.available / (1024 * 1024),
+                "percent_used": system_mem.percent,
+                "free_mb": system_mem.free / (1024 * 1024),
+            },
+            "gc": {
+                "collected": gc.collect(),
+                "garbage_count": len(gc.garbage),
+                "thresholds": gc.get_threshold(),
+                "count": gc.get_count(),
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"Erro ao obter informações de memória: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao obter informações de memória: {str(e)}"
+        )

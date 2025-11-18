@@ -19,51 +19,117 @@ if project_root not in sys.path:
 from src.model.preprocessing import EnergyDataPreprocessor
 
 
+import gc
+import logging
+from typing import Optional, Dict, Any
+import os
+import joblib
+import pandas as pd
+import numpy as np
+
+# Configurar logger
+logger = logging.getLogger(__name__)
+
 class EnergyPredictor:
     """
     Classe responsável por carregar o modelo e fazer previsões.
+    Implementa carregamento preguiçoso para otimização de memória.
     """
     
     def __init__(self, model_path: str, scaler_dir: str):
         """
-        Inicializa o preditor.
+        Inicializa o preditor com carregamento preguiçoso.
         
         Args:
             model_path: Caminho para o modelo treinado
             scaler_dir: Diretório com os scalers
         """
-        self.model = None
-        self.preprocessor = None
-        self.model_path = model_path
-        self.scaler_dir = scaler_dir
+        self._model = None
+        self._preprocessor = None
+        self._model_path = model_path
+        self._scaler_dir = scaler_dir
+        self._is_loaded = False
         
-        self._load_model()
-        self._load_preprocessor()
+        # Configuração para reduzir uso de memória do joblib
+        self._joblib_mmap_mode = 'r'  # Modo de leitura apenas para economizar memória
+    
+    @property
+    def model(self):
+        """Carrega o modelo apenas quando necessário."""
+        if self._model is None:
+            self._load_model()
+        return self._model
+    
+    @property
+    def preprocessor(self):
+        """Carrega o preprocessor apenas quando necessário."""
+        if self._preprocessor is None:
+            self._load_preprocessor()
+        return self._preprocessor
     
     def _load_model(self):
-        """Carrega o modelo de regressão ML."""
+        """Carrega o modelo de forma preguiçosa."""
+        if self._model is not None:
+            return
+            
         try:
-            if os.path.exists(self.model_path):
-                self.model = joblib.load(self.model_path)
-                print(f"[OK] Modelo carregado de: {self.model_path}")
+            if os.path.exists(self._model_path):
+                logger.info(f"Carregando modelo de: {self._model_path}")
+                
+                # Configuração para reduzir uso de memória
+                self._model = joblib.load(
+                    self._model_path, 
+                    mmap_mode=self._joblib_mmap_mode
+                )
+                
+                self._is_loaded = True
+                logger.info("Modelo carregado com sucesso")
+                
+                # Forçar coleta de lixo após carregar o modelo
+                gc.collect()
+                
+                # Verificar uso de memória
+                if hasattr(self._model, 'n_estimators'):
+                    logger.info(f"Modelo com {self._model.n_estimators} estimadores")
+                
             else:
-                print(f"[AVISO] Modelo nao encontrado em: {self.model_path}")
-                print("[INFO] Execute 'python src/model/train.py' primeiro!")
+                logger.error(f"Modelo não encontrado em: {self._model_path}")
+                self._is_loaded = False
+                
         except Exception as e:
-            print(f"[ERRO] Erro ao carregar modelo: {e}")
+            logger.error(f"Erro ao carregar modelo: {e}")
+            self._is_loaded = False
+            raise
     
     def _load_preprocessor(self):
-        """Carrega o preprocessador."""
+        """Carrega o preprocessador de forma preguiçosa."""
+        if self._preprocessor is not None:
+            return
+            
         try:
-            self.preprocessor = EnergyDataPreprocessor()
-            self.preprocessor.load_scalers(self.scaler_dir)
-            print(f"[OK] Preprocessador carregado de: {self.scaler_dir}")
+            logger.info(f"Carregando preprocessador de: {self._scaler_dir}")
+            self._preprocessor = EnergyDataPreprocessor()
+            self._preprocessor.load_scalers(self._scaler_dir)
+            logger.info("Preprocessador carregado com sucesso")
+            
+            # Forçar coleta de lixo
+            gc.collect()
+            
         except Exception as e:
-            print(f"[ERRO] Erro ao carregar preprocessador: {e}")
+            logger.error(f"Erro ao carregar preprocessador: {e}")
+            raise
     
     def is_ready(self) -> bool:
-        """Verifica se o preditor está pronto."""
-        return self.model is not None and self.preprocessor is not None
+        """Verifica se o preditor está pronto para uso."""
+        if not self._is_loaded:
+            try:
+                self._load_model()
+                self._load_preprocessor()
+            except Exception as e:
+                logger.error(f"Erro ao verificar prontidão do modelo: {e}")
+                return False
+                
+        return self._is_loaded and self._model is not None and self._preprocessor is not None
     
     def _prepare_single_prediction_data(self, data: Dict[str, Any]) -> pd.DataFrame:
         """
