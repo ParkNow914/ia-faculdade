@@ -5,7 +5,6 @@ Endpoints RESTful para o sistema de previsão.
 
 from fastapi import APIRouter, HTTPException, status
 from datetime import datetime
-import pandas as pd
 import os
 import psutil
 import gc
@@ -223,6 +222,7 @@ async def forecast_next_hours(request: ForecastRequest):
                 detail="Dados históricos não encontrados. Execute o treinamento primeiro."
             )
         
+        import pandas as pd
         df = pd.read_csv(historical_path)
         df['timestamp'] = pd.to_datetime(df['timestamp'])
         
@@ -281,6 +281,7 @@ async def get_statistics():
     """
     try:
         # Carregar dados
+        import pandas as pd
         df = pd.read_csv('data/raw/energy_consumption.csv')
         
         stats = {

@@ -52,17 +52,17 @@ class EnergyRegressionModel:
         """
         models = [
             ('rf', RandomForestRegressor(
-                n_estimators=300,  # Aumentado para melhor acurácia (ainda rápido)
-                max_depth=30,      # Profundidade máxima para capturar padrões complexos
-                min_samples_split=2,  # Mínimo para máxima flexibilidade
-                min_samples_leaf=1,   # Mínimo para máxima flexibilidade
+                n_estimators=50,   # Reduced from 300 to 50 for smaller model
+                max_depth=10,      # Reduced from 30 to 10
+                min_samples_split=5,  # Increased from 2 to 5
+                min_samples_leaf=2,   # Increased from 1 to 2
                 random_state=42,
-                n_jobs=-1,         # Paralelizar máximo para velocidade
+                n_jobs=-1,
                 verbose=0,
                 max_features='sqrt',
                 bootstrap=True,
-                oob_score=False,   # Desabilitado para velocidade
-                warm_start=False   # Desabilitado para velocidade
+                oob_score=False,
+                warm_start=False
             )),
             ('gb', GradientBoostingRegressor(
                 n_estimators=300,  # Aumentado para melhor acurácia
@@ -238,16 +238,16 @@ class EnergyRegressionModel:
                 self.model = self.create_ensemble_model(X_train, y_train)
             elif model_type == 'rf':
                 self.model = RandomForestRegressor(
-                    n_estimators=300,  # Aumentado para melhor acurácia
-                    max_depth=30,      # Profundidade máxima
-                    min_samples_split=2,  # Mínimo para máxima flexibilidade
-                    min_samples_leaf=1,   # Mínimo para máxima flexibilidade
+                    n_estimators=50,   # Reduced from 300 to 50
+                    max_depth=10,      # Reduced from 30 to 10
+                    min_samples_split=5,  # Increased from 2 to 5
+                    min_samples_leaf=2,   # Increased from 1 to 2
                     random_state=42,
-                    n_jobs=-1,         # Paralelizar máximo
+                    n_jobs=-1,
                     verbose=0,
                     max_features='sqrt',
                     bootstrap=True,
-                    oob_score=False    # Desabilitado para velocidade
+                    oob_score=False
                 )
             elif model_type == 'gb':
                 self.model = GradientBoostingRegressor(

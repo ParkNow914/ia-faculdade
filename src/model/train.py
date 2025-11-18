@@ -94,7 +94,7 @@ def compare_models(X_train, y_train, X_test, y_test, preprocessor):
     print("🔍 COMPARANDO DIFERENTES MODELOS DE REGRESSÃO")
     print("="*80)
     
-    models_to_test = ['ensemble', 'rf', 'gb']
+    models_to_test = ['rf']  # Only test RandomForest for smaller model
     results = {}
     
     for model_type in models_to_test:

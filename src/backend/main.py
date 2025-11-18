@@ -12,9 +12,6 @@ import tracemalloc
 from pathlib import Path
 from typing import Optional
 
-# Configuração inicial para monitoramento de memória
-tracemalloc.start()
-
 # Adicionar diretório raiz ao PYTHONPATH
 project_root = str(Path(__file__).parent.parent.parent)
 if project_root not in sys.path:
@@ -32,6 +29,10 @@ from src.backend.core.logger import setup_logger
 
 # Configurar logger
 logger = setup_logger(__name__)
+
+# Configuração inicial para monitoramento de memória (apenas em desenvolvimento)
+if settings.DEBUG:
+    tracemalloc.start()
 
 # Importar rotas após configuração do logger
 from src.backend.api.routes import router
