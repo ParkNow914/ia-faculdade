@@ -1197,15 +1197,15 @@ html {
 
 .glass {
     background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .glass-dark {
     background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -1941,4 +1941,94 @@ kbd {
 }
 
 /* === Fim dos estilos responsivos === */
+
+/* Utility Classes for Inline Styles */
+.logo-ai {
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.small-hint {
+    font-size: 0.75rem;
+    color: var(--gray);
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.small-text {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.text-center {
+    text-align: center;
+    color: var(--gray);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.margin-zero {
+    margin: 0;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+.margin-top {
+    margin-top: 1rem;
+}
+
+.margin-bottom {
+    margin-bottom: 1rem;
+}
+
+.margin-left {
+    margin-left: 1.5rem;
+    line-height: 2;
+}
+
+.padding-box {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.gradient-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+    border-left: 4px solid var(--success);
+}
+
+.gradient-info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.1) 100%);
+    border-left: 4px solid var(--info);
+}
+
+.gradient-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%);
+    border-left: 4px solid var(--warning);
+}
+
+.gradient-purple {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border-left: 4px solid #8b5cf6;
+}
+
+.display-none {
+    display: none;
+}
+
+.animation-delay-01 {
+    animation-delay: 0.1s;
+}
 

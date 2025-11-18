@@ -34,7 +34,7 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-brain"></i>
-                    <h1>EnergyFlow <span style="font-weight: 300; opacity: 0.9;">AI</span></h1>
+                    <h1>EnergyFlow <span class="logo-ai">AI</span></h1>
                 </div>
                 <nav class="nav">
                     <a href="#predicao" class="nav-link active">Predição</a>
@@ -98,7 +98,7 @@
                         <i class="fas fa-brain"></i>
                         <h3>Ensemble</h3>
                         <p>Modelo de IA</p>
-                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                        <small class="small-hint">
                             (Combinação de 3 algoritmos de Inteligência Artificial trabalhando juntos para maior precisão)
                         </small>
                     </div>
@@ -106,7 +106,7 @@
                         <i class="fas fa-database"></i>
                         <h3>2.049.280</h3>
                         <p>Medições Reais</p>
-                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                        <small class="small-hint">
                             (dados por minuto - UCI Dataset)
                         </small>
                     </div>
@@ -114,7 +114,7 @@
                         <i class="fas fa-chart-line"></i>
                         <h3>99.97%</h3>
                         <p>Precisão das Previsões</p>
-                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                        <small class="small-hint">
                             (A IA erra menos de 0.03% - quase perfeito! Isso significa que as previsões são extremamente confiáveis)
                         </small>
                     </div>
@@ -122,7 +122,7 @@
                         <i class="fas fa-clock"></i>
                         <h3>4 anos</h3>
                         <p>Histórico Analisado</p>
-                        <small style="font-size: 0.75rem; color: var(--gray); display: block; margin-top: 0.25rem;">
+                        <small class="small-hint">
                             (2006 a 2010 - França)
                         </small>
                     </div>
@@ -140,15 +140,15 @@
                     <i class="fas fa-magic"></i>
                     Faça Suas Previsões
                 </h2>
-                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                <p class="text-center">
                     Escolha uma das duas formas abaixo para prever o consumo de energia:
                 </p>
 
                 <div class="prediction-container">
                     <!-- Quick Prediction -->
                     <div class="card prediction-card scale-in">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                            <h3 class="card-title" style="margin: 0;">⚡ Previsão Rápida e Automática</h3>
+                        <div class="flex-between">
+                            <h3 class="card-title margin-zero">⚡ Previsão Rápida e Automática</h3>
                             <span class="badge badge-success">Recomendado</span>
                         </div>
                         <p class="card-description">
@@ -165,7 +165,7 @@
                             <label for="hoursAhead">
                                 <strong>Quantas horas à frente você quer prever?</strong>
                                 <br>
-                                <small style="color: var(--gray);">
+                                <small class="small-text">
                                     (Mínimo: 1 hora | Máximo: 168 horas = 7 dias)
                                 </small>
                             </label>
@@ -178,13 +178,13 @@
                             Gerar Previsão Automática
                         </button>
 
-                        <div id="quickPredictResult" class="result-box" style="display: none;"></div>
+                        <div id="quickPredictResult" class="result-box display-none"></div>
                     </div>
 
                     <!-- Manual Prediction -->
-                    <div class="card prediction-card scale-in" style="animation-delay: 0.1s;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                            <h3 class="card-title" style="margin: 0;">🎯 Previsão Personalizada (Avançada)</h3>
+                    <div class="card prediction-card scale-in animation-delay-01">
+                        <div class="flex-between">
+                            <h3 class="card-title margin-zero">🎯 Previsão Personalizada (Avançada)</h3>
                             <span class="badge badge-info">Avançado</span>
                         </div>
                         <p class="card-description">
@@ -203,7 +203,7 @@
                                 <div class="form-group">
                                     <label for="temperature">
                                         <strong>🌡️ Temperatura (°C):</strong>
-                                        <br><small style="color: var(--gray);">Quanto calor ou frio está fazendo?</small>
+                                        <br><small class="small-text">Quanto calor ou frio está fazendo?</small>
                                     </label>
                                     <input type="number" id="temperature" value="25" step="0.1" class="input" 
                                            placeholder="Ex: 25 (graus Celsius)" required>
@@ -211,7 +211,7 @@
                                 <div class="form-group">
                                     <label for="hour">
                                         <strong>🕐 Hora do Dia:</strong>
-                                        <br><small style="color: var(--gray);">Que horas são? (0 = meia-noite, 12 = meio-dia, 23 = 11 da noite)</small>
+                                        <br><small class="small-text">Que horas são? (0 = meia-noite, 12 = meio-dia, 23 = 11 da noite)</small>
                                     </label>
                                     <input type="number" id="hour" value="14" min="0" max="23" class="input" 
                                            placeholder="Ex: 14 (2 da tarde)" required>
@@ -222,7 +222,7 @@
                                 <div class="form-group">
                                     <label for="dayOfWeek">
                                         <strong>📅 Dia da Semana:</strong>
-                                        <br><small style="color: var(--gray);">Qual dia? (afeta padrões de consumo)</small>
+                                        <br><small class="small-text">Qual dia? (afeta padrões de consumo)</small>
                                     </label>
                                     <select id="dayOfWeek" class="input" required>
                                         <option value="0">Segunda-feira</option>
@@ -237,7 +237,7 @@
                                 <div class="form-group">
                                     <label for="month">
                                         <strong>📆 Mês do Ano:</strong>
-                                        <br><small style="color: var(--gray);">Qual mês? (estações do ano afetam consumo)</small>
+                                        <br><small class="small-text">Qual mês? (estações do ano afetam consumo)</small>
                                     </label>
                                     <select id="month" class="input" required>
                                         <option value="1">Janeiro</option>
@@ -261,14 +261,14 @@
                                     <label>
                                         <input type="checkbox" id="isWeekend">
                                         <strong>Final de Semana</strong>
-                                        <br><small style="color: var(--gray);">Marque se for sábado ou domingo</small>
+                                        <br><small class="small-text">Marque se for sábado ou domingo</small>
                                     </label>
                                 </div>
                                 <div class="form-group checkbox-group">
                                     <label>
                                         <input type="checkbox" id="isHoliday">
                                         <strong>Feriado</strong>
-                                        <br><small style="color: var(--gray);">Marque se for feriado (padrão de consumo diferente)</small>
+                                        <br><small class="small-text">Marque se for feriado (padrão de consumo diferente)</small>
                                     </label>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@
                             <div class="form-group">
                                 <label>
                                     <strong>⚡ Consumo Histórico (kWh):</strong>
-                                    <br><small style="color: var(--gray);">
+                                    <br><small class="small-text">
                                         Quanto de energia foi consumido nas horas anteriores? A IA usa isso para entender seus padrões de uso.
                                         <br><strong>Dica:</strong> Se não souber os valores exatos, use valores próximos de 1.0 kWh (consumo típico de uma casa).
                                     </small>
@@ -292,7 +292,7 @@
                                            value="1.0" step="0.01" class="input" required
                                            title="Quanto de energia foi consumido há 168 horas (7 dias/1 semana)?">
                                 </div>
-                                <small style="color: var(--gray); font-size: 0.75rem; display: block; margin-top: 0.5rem;">
+                                <small class="small-hint">
                                     💡 <strong>Exemplo prático:</strong> Se sua conta de luz mostra que você consumiu 30 kWh em um dia, 
                                     isso dá aproximadamente 1.25 kWh por hora (30 ÷ 24 horas).
                                 </small>
@@ -302,7 +302,7 @@
                                 <div class="form-group">
                                     <label for="rollingMean">
                                         <strong>📊 Média das Últimas 24h (kWh):</strong>
-                                        <br><small style="color: var(--gray);">
+                                        <br><small class="small-text">
                                             Qual foi o consumo médio por hora nas últimas 24 horas? 
                                             <br><strong>Como calcular:</strong> Pegue o consumo total do último dia e divida por 24.
                                         </small>
@@ -313,7 +313,7 @@
                                 <div class="form-group">
                                     <label for="rollingStd">
                                         <strong>📈 Variação das Últimas 24h:</strong>
-                                        <br><small style="color: var(--gray);">
+                                        <br><small class="small-text">
                                             Quanto o consumo variou nas últimas 24 horas? 
                                             <br><strong>Dica:</strong> Use valores entre 0.1 (variação pequena) e 1.5 (variação grande). 
                                             Se não souber, use 0.9 (variação moderada).
@@ -330,7 +330,7 @@
                             </button>
                         </form>
 
-                        <div id="manualPredictResult" class="result-box" style="display: none;"></div>
+                        <div id="manualPredictResult" class="result-box display-none"></div>
                     </div>
                 </div>
             </section>
@@ -341,22 +341,22 @@
                     <i class="fas fa-chart-bar"></i>
                     Painel de Resultados
                 </h2>
-                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                <p class="text-center">
                     Aqui você visualiza as previsões em gráfico e informações sobre a Inteligência Artificial
                 </p>
 
                 <div class="dashboard-grid">
                     <div class="card">
                         <h3 class="card-title">📈 Gráfico de Previsões</h3>
-                        <p style="color: var(--gray); margin-bottom: 1rem;">
+                        <p class="small-text margin-bottom">
                             Este gráfico mostra visualmente como o consumo de energia varia hora por hora ao longo do tempo previsto. 
                             <strong>Como ler:</strong> A linha mostra o consumo previsto. Quanto mais alta a linha, mais energia será consumida naquela hora. 
                             Use isso para identificar os horários de maior e menor consumo!
                         </p>
-                        <div style="position: relative; height: 400px; width: 100%;">
+                        <div class="chart-container">
                             <canvas id="predictionChart"></canvas>
                         </div>
-                        <p style="color: var(--gray); margin-top: 1rem; font-size: 0.9rem;">
+                        <p class="margin-top small-text">
                             💡 <em>O gráfico aparecerá aqui automaticamente depois que você fizer uma "Previsão Rápida" acima. 
                             Quanto mais horas você prever, mais detalhado será o gráfico!</em>
                         </p>
@@ -364,35 +364,35 @@
 
                     <div class="card">
                         <h3 class="card-title">🤖 Informações da Inteligência Artificial</h3>
-                        <p style="color: var(--gray); margin-bottom: 1rem;">
+                        <p class="small-text margin-bottom">
                             Detalhes técnicos sobre o "cérebro" que faz as previsões:
                         </p>
                         <div id="modelStats" class="stats-grid">
                             <div class="stat-item">
                                 <span class="stat-label">
                                     <strong>Status da IA:</strong>
-                                    <br><small style="color: var(--gray);">Está funcionando?</small>
+                                    <br><small class="small-text">Está funcionando?</small>
                                 </span>
                                 <span class="stat-value" id="modelStatus">Carregando...</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">
                                     <strong>Modelos Base (Ensemble):</strong>
-                                    <br><small style="color: var(--gray);">Quantos modelos ML trabalham juntos</small>
+                                    <br><small class="small-text">Quantos modelos ML trabalham juntos</small>
                                 </span>
                                 <span class="stat-value" id="modelParams">-</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">
                                     <strong>Variáveis Analisadas:</strong>
-                                    <br><small style="color: var(--gray);">Quantas informações a IA usa para decidir</small>
+                                    <br><small class="small-text">Quantas informações a IA usa para decidir</small>
                                 </span>
                                 <span class="stat-value" id="modelFeatures">-</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">
                                     <strong>Tipo de Modelo:</strong>
-                                    <br><small style="color: var(--gray);">Algoritmo de Machine Learning usado</small>
+                                    <br><small class="small-text">Algoritmo de Machine Learning usado</small>
                                 </span>
                                 <span class="stat-value" id="modelSequence">Ensemble</span>
                             </div>
@@ -407,50 +407,50 @@
                     <i class="fas fa-leaf"></i>
                     Economia e Sustentabilidade
                 </h2>
-                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                <p class="text-center">
                     Dicas inteligentes para economizar energia e reduzir custos
                 </p>
 
                 <div class="about-grid">
-                    <div class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-left: 4px solid var(--success);">
+                    <div class="card gradient-success">
                         <h3 class="card-title">💰 Economize Dinheiro</h3>
-                        <p style="margin-bottom: 1rem;">
+                        <p class="margin-bottom">
                             <strong>Use as previsões para planejar seu consumo:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                        <ul class="margin-left">
                             <li>Ligue aparelhos pesados (máquina de lavar, secadora) nos horários de menor consumo previsto</li>
                             <li>Evite usar vários aparelhos ao mesmo tempo nos horários de pico</li>
                             <li>Programe o ar-condicionado para funcionar quando o consumo estiver mais baixo</li>
                             <li>Use a previsão para ajustar seus hábitos e reduzir a conta de luz</li>
                         </ul>
-                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-md);">
+                        <div class="padding-box">
                             <strong>💡 Dica:</strong> Reduzir apenas 10% do consumo pode economizar centenas de reais por ano!
                         </div>
                     </div>
 
-                    <div class="card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.1) 100%); border-left: 4px solid var(--info);">
+                    <div class="card gradient-info">
                         <h3 class="card-title">🌱 Impacto Ambiental</h3>
-                        <p style="margin-bottom: 1rem;">
+                        <p class="margin-bottom">
                             <strong>Consumo consciente ajuda o planeta:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                        <ul class="margin-left">
                             <li>Cada kWh economizado reduz a emissão de CO₂ em aproximadamente 0,5 kg</li>
                             <li>Usar energia de forma inteligente diminui a necessidade de novas usinas</li>
                             <li>Reduzir picos de consumo ajuda a estabilizar a rede elétrica</li>
                             <li>Contribui para um futuro mais sustentável para todos</li>
                         </ul>
-                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: var(--radius-md);">
+                        <div class="padding-box">
                             <strong>📊 Estatística:</strong> Se 1.000 pessoas usarem este sistema e reduzirem 10% do consumo, 
                             economizaremos aproximadamente 2.000 kg de CO₂ por mês!
                         </div>
                     </div>
 
-                    <div class="card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%); border-left: 4px solid var(--warning);">
+                    <div class="card gradient-warning">
                         <h3 class="card-title">⚡ Dicas Práticas</h3>
-                        <p style="margin-bottom: 1rem;">
+                        <p class="margin-bottom">
                             <strong>Ações simples que fazem diferença:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                        <ul class="margin-left">
                             <li><strong>Horário de pico:</strong> Evite usar chuveiro elétrico, ferro de passar e micro-ondas ao mesmo tempo</li>
                             <li><strong>Iluminação:</strong> Troque lâmpadas incandescentes por LED (economia de até 80%)</li>
                             <li><strong>Eletrodomésticos:</strong> Desligue da tomada quando não estiver usando (evita consumo "fantasma")</li>
@@ -459,18 +459,18 @@
                         </ul>
                     </div>
 
-                    <div class="card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%); border-left: 4px solid #8b5cf6;">
+                    <div class="card gradient-purple">
                         <h3 class="card-title">📈 Acompanhe Seu Progresso</h3>
-                        <p style="margin-bottom: 1rem;">
+                        <p class="margin-bottom">
                             <strong>Use o EnergyFlow AI para monitorar:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                        <ul class="margin-left">
                             <li>Compare previsões com consumo real para identificar padrões</li>
                             <li>Veja quanto você está economizando ao seguir as dicas</li>
                             <li>Identifique quais horários são mais caros para usar energia</li>
                             <li>Planeje mudanças de hábitos baseadas em dados reais</li>
                         </ul>
-                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: var(--radius-md);">
+                        <div class="padding-box">
                             <strong>🎯 Meta:</strong> Tente reduzir seu consumo em 15% nos próximos 3 meses usando as previsões!
                         </div>
                     </div>
@@ -483,7 +483,7 @@
                     <i class="fas fa-info-circle"></i>
                     Entenda Como Funciona
                 </h2>
-                <p style="text-align: center; color: var(--gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                <p class="text-center">
                     Explicações simples e detalhadas sobre o projeto
                 </p>
 
@@ -494,19 +494,19 @@
                             <strong>Em termos simples:</strong> Este sistema prevê quanto de energia elétrica 
                             será consumida em uma residência nas próximas horas ou dias.
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>Como consegue fazer isso?</strong> Usando Inteligência Artificial (IA), 
                             mais especificamente algoritmos de <strong>Regressão ML</strong> (Random Forest, 
                             Gradient Boosting, XGBoost) - modelos de Machine Learning que aprendem padrões 
                             de consumo estudando <strong>mais de 2 milhões de medições reais</strong> 
                             feitas em uma casa na França durante 4 anos seguidos (2006-2010).
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>O que ele consegue prever?</strong> O consumo de energia até 7 dias 
                             (168 horas) à frente, considerando fatores como: horário do dia, dia da semana, 
                             mês do ano, temperatura, se é feriado, e como foi o consumo nas horas anteriores.
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             💡 <strong>Pense assim:</strong> É como ter um meteorologista que, ao invés de 
                             prever o tempo, prevê o consumo de energia da sua casa!
                         </p>
@@ -514,7 +514,7 @@
 
                     <div class="card">
                         <h3 class="card-title">🛠️ Tecnologias Utilizadas</h3>
-                        <p style="margin-bottom: 1rem;">
+                        <p class="margin-bottom">
                             <strong>Ferramentas e programas usados para construir este sistema:</strong>
                         </p>
                         <ul class="tech-list">
@@ -563,30 +563,30 @@
                             <strong>📚 Fonte dos Dados:</strong> UCI Machine Learning Repository 
                             (um site que disponibiliza dados reais para pesquisas científicas)
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>🏠 Nome do Dataset:</strong> "Individual Household Electric Power Consumption" 
                             (Consumo de Energia Elétrica Residencial Individual)
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>📅 Quando foram coletados:</strong> De Dezembro de 2006 até Novembro de 2010 
                             (quase 4 anos completos = 47 meses de dados)
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>📍 Onde:</strong> Em uma casa real na cidade de Sceaux, França
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>🔢 Quantidade de Dados:</strong>
                             <br>• <strong>2.049.280</strong> medições originais (uma medição a cada minuto!)
                             <br>• <strong>34.168</strong> horas de dados processados (agrupamos de minuto em minuto para hora em hora)
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>📊 O que foi medido:</strong>
                             <br>• Consumo total de energia da casa (em kilowatts)
                             <br>• Voltagem da eletricidade
                             <br>• Intensidade da corrente elétrica
                             <br>• Consumo separado da cozinha, lavanderia e ar-condicionado/aquecedor
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             💡 <strong>Resumindo:</strong> Equipamentos especiais mediram o consumo de energia 
                             dessa casa francesa minuto a minuto durante 4 anos. Pegamos todos esses dados 
                             reais e ensinamos nossa IA a reconhecer os padrões!
@@ -600,24 +600,24 @@
                             da disciplina de <strong>Inteligência Artificial</strong> do curso de 
                             <strong>Gestão de T.I.</strong>
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>Objetivo educacional:</strong> Demonstrar na prática como a IA pode 
                             resolver problemas reais, neste caso:
                             <br>• Prever consumo de energia
                             <br>• Ajudar a economizar recursos
                             <br>• Contribuir para sustentabilidade (usando energia de forma mais consciente)
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>Tipo de IA usada:</strong> Modelos de Regressão ML (Machine Learning) 
                             usando Ensemble de múltiplos algoritmos (Random Forest, Gradient Boosting, XGBoost) 
                             - algoritmos de IA tradicionais que são excelentes em entender padrões e relações 
                             entre variáveis, como consumo de energia que varia hora a hora. Mais leves e 
                             rápidos de treinar que redes neurais profundas.
                         </p>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             <strong>📊 Quão boa é a IA? (Métricas de Precisão):</strong>
                         </p>
-                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <ul class="margin-left">
                             <li>
                                 <strong>R² Score: 99.9999%</strong> - A IA explica praticamente 100% da variação 
                                 do consumo (quase perfeito! 🎯)
@@ -639,7 +639,7 @@
                                 em menos de um décimo de segundo!
                             </li>
                         </ul>
-                        <p style="margin-top: 1rem;">
+                        <p class="margin-top">
                             💡 <strong>Resumindo:</strong> É um projeto real, com dados reais, mostrando 
                             como IA pode ser aplicada no mundo real para resolver problemas práticos!
                         </p>
