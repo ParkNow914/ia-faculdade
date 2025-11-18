@@ -9,7 +9,7 @@ const API_URL = window.location.hostname === 'localhost' || window.location.host
     ? 'http://localhost:8000'
     : 'https://energyflow-api.onrender.com';
 
-const MODEL_ACCURACY = '99.97%';
+const MODEL_ACCURACY = '93.70%';
 
 let predictionChart = null;
 let isLoading = false;
